@@ -87,7 +87,7 @@
     height: --spacing(25);
   }
 
-  @variant md {
+  @variant xl {
     width: --spacing(26);
     height: --spacing(26);
   }
