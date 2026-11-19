@@ -102,20 +102,17 @@ describe('Tests on <MatchesTable /> component', () => {
     });
   });
 
-  test('Should render links to teams', () => {
+  test('Should link each match to its details page', () => {
     renderComponent();
 
     matchesMock.forEach((match) => {
-      const localTeamLink = screen.getByTitle(`Ver detalles del equipo local ${match.localTeam.name}`);
-      const visitorTeamLink = screen.getByTitle(`Ver detalles del equipo visitante ${match.visitorTeam.name}`);
+      const matchLink = screen.getByRole('link', {
+        name: `Ver detalles del encuentro entre ${match.localTeam.name} y ${match.visitorTeam.name}`,
+      });
 
-      expect(localTeamLink).toHaveAttribute(
+      expect(matchLink).toHaveAttribute(
         'href',
-        ROUTES.ADMIN_TEAMS_SHOW(match.localTeam.id),
-      );
-      expect(visitorTeamLink).toHaveAttribute(
-        'href',
-        ROUTES.ADMIN_TEAMS_SHOW(match.visitorTeam.id),
+        ROUTES.ADMIN_MATCHES_SHOW(match.id),
       );
     });
   });
