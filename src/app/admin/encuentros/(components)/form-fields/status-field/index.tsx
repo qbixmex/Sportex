@@ -22,7 +22,7 @@ export const StatusField: FC = () => {
       name="status"
       control={control}
       render={({ field, fieldState }) => (
-        <Field className="w-50">
+        <Field className="lg:max-w-50">
           <FieldLabel>Estado</FieldLabel>
           <Select
             value={field.value ?? ''}

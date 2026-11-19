@@ -80,7 +80,7 @@ export const MatchDateTimeFields = () => {
             )}
 
             {(enabledDate || matchDate) && (
-              <section className="flex flex-row gap-5">
+              <section className="flex flex-col lg:flex-row gap-5">
                 <Field className="flex-2" data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="date-picker">Fecha</FieldLabel>
                   <Popover open={openCalendar} onOpenChange={setOpenCalendar}>
