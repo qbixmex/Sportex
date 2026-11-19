@@ -1,0 +1,113 @@
+@reference "tailwindcss";
+
+.matchTeams {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(4);
+  font-weight: 600;
+  color: var(--color-gray-500);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+
+  @variant lg {
+    flex-direction: row;
+    font-size: var(--text-lg);
+    text-align: center;
+  }
+}
+
+.columnOne {
+  @variant lg {
+    text-align: right;
+  }
+}
+
+.columnTwo {
+  display: none;
+
+  @variant md {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: --spacing(2);
+  }
+}
+
+.columnThree {
+  @variant lg {
+    text-align: left;
+  }
+}
+
+.teamNameScores {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: --spacing(2);
+
+  @variant md {
+    justify-content: flex-start;
+  }
+}
+
+.columnOne .teamNameScores {
+  @variant lg {
+    justify-content: flex-end;
+  }
+}
+
+.matchScores {
+  display: flex;
+  gap: --spacing(2);
+  order: 2;
+
+  @variant lg {
+    order: 1;
+  }
+}
+
+.mobileScore {
+  color: var(--color-cyan-500);
+
+  @variant md {
+    display: none;
+  }
+}
+
+.matchLocalName,
+.matchVisitorName {
+  color: var(--color-sky-700);
+  font-weight: 600;
+
+  @variant dark {
+    color: var(--color-sky-600);
+  }
+}
+
+.matchLocalName {
+  order: 2;
+}
+
+.matchVisitorName {
+  order: 1;
+}
+
+.matchPenaltyShoots {
+  color: var(--color-gray-500);
+}
+
+.localPenaltyShoots {
+  order: 2;
+
+  @variant lg {
+    order: 1;
+  }
+}
+
+.visitorPenaltyShoots {
+  order: 2;
+
+  @variant lg {
+    order: 1;
+  }
+}
