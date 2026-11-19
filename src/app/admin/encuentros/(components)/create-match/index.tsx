@@ -6,6 +6,7 @@ import { Plus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { ROUTES } from '@/shared/constants/routes';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 export const CreateMatch = () => {
   const searchParams = useSearchParams();
@@ -29,13 +30,17 @@ export const CreateMatch = () => {
               : ROUTES.ADMIN_MATCHES_CREATE
           }
           className={
-            buttonVariants({
-              variant: 'outline-primary',
-              size: 'icon',
-            })
+            cn(
+              buttonVariants({
+                variant: 'outline-primary',
+                size: 'default',
+              }),
+              'flex-1 lg:flex-none lg:w-fit! lg:size-9!',
+            )
           }
           aria-label="Ir a crear encuentro"
         >
+          <span className="lg:hidden">crear encuentro</span>{' '}
           <Plus strokeWidth={3} aria-hidden="true" />
         </Link>
       </TooltipTrigger>

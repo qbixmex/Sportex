@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+#matchDetails {
+  display: none;
+
+  @variant lg {
+    display: block;
+  }
+}

@@ -22,7 +22,7 @@ export const LoginView = async () => {
 
   return (
     <section className={styles.wrapper}>
-      <Card className="w-full max-w-md mx-auto p-10">
+      <Card className={styles.card}>
         <CardHeader>
           {
             globalSettings?.logoUrl && (
@@ -38,7 +38,7 @@ export const LoginView = async () => {
               </a>
             )
           }
-          <CardTitle className="text-center text-xl">
+          <CardTitle className={styles.cardTitle}>
             <span aria-label="Accede con tus claves de acceso">
               Accede con tus claves de acceso
             </span>

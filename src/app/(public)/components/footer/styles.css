@@ -33,5 +33,5 @@
 }
 
 .copyright {
-  @apply text-gray-500 italic font-arimo;
+  @apply text-gray-500 italic;
 }
