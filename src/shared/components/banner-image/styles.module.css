@@ -32,7 +32,8 @@
   text-wrap: wrap;
   color: var(--color-neutral-100);
   font-weight: 900;
-  @apply text-xl font-open-sans;
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
   @apply text-shadow-md/50 text-shadow-black;
 
   @variant md {
