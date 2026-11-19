@@ -26,10 +26,13 @@ export const ClearFilters = () => {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          variant="outline-info" size="icon"
+          variant="outline-info"
+          size="icon"
           onClick={onClearFilters}
           aria-label="Borrar filtros"
+          className="w-fit px-4 lg:px-0 lg:size-9!"
         >
+          <span className="lg:hidden">borrar filtros</span>{' '}
           <FunnelX aria-hidden="true" />
         </Button>
       </TooltipTrigger>

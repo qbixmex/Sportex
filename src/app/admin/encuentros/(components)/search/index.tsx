@@ -76,8 +76,8 @@ export const Search: FC<Props> = ({ placeholder }) => {
           </div>
           <Button
             type="submit"
-            className={cn('group', styles.submitButton)}
             variant="outline-secondary"
+            className={cn('group', styles.submitButton)}
           >
             buscar
           </Button>

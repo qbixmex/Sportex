@@ -30,28 +30,28 @@ export const MatchesPage: FC<Props> = ({ searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">Encuentros</CardTitle>
-              <section className="flex gap-2.5">
-                <Search placeholder="ejemplo: chivas vs atlas" />
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">Encuentros</CardTitle>
+            <section className="flex flex-col gap-5 mt-2 lg:mt-0 lg:flex-row lg:gap-2.5">
+              <Search placeholder="ejemplo: chivas vs atlas" />
+              <div className="w-full flex flex-row gap-3 lg:gap-2.5">
                 <ClearFilters />
                 <Suspense fallback={<CreateMatchButtonSkeleton />}>
                   <CreateMatch />
                 </Suspense>
-              </section>
-            </CardHeader>
-            <CardContent>
-              <Suspense fallback={<TournamentsSelectorSkeleton />}>
-                <SearchParamsSelectors tournamentPromise={tournamentPromise} />
-              </Suspense>
-              <Suspense>
-                <MatchesView searchParams={searchParams} />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+              </div>
+            </section>
+          </CardHeader>
+          <CardContent>
+            <Suspense fallback={<TournamentsSelectorSkeleton />}>
+              <SearchParamsSelectors tournamentPromise={tournamentPromise} />
+            </Suspense>
+            <Suspense>
+              <MatchesView searchParams={searchParams} />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );
