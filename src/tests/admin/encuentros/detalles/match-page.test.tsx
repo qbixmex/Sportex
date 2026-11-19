@@ -37,7 +37,7 @@ describe('Tests on <MatchPage />', () => {
     });
     render(ServerComponent);
 
-    const title = screen.getByText(/información del encuentro/i);
+    const title = screen.getByText(/detalles del partido/i);
 
     expect(title).toBeInTheDocument();
   });
