@@ -4,7 +4,12 @@
   width: auto;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing) * 2);
+  align-items: start;
+  gap: --spacing(2);
+
+  @variant lg {
+    align-items: center;
+  }
 }
 
 .weekLabel {
@@ -14,7 +19,12 @@
 .weekGroup {
   display: flex;
   justify-content: center;
-  @apply items-center gap-5 md:justify-start;
+  align-items: center;
+  gap: --spacing(5);
+
+  @variant md {
+    justify-content: start;
+  }
 }
 
 .weekInput {
