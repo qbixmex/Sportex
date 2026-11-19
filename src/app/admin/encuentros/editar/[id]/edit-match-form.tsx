@@ -54,16 +54,7 @@ export const EditMatchForm: FC<Props> = ({
           hiddenScores={hiddenScores}
         />
 
-        <section className="flex justify-end gap-3">
-          <Button
-            type="button"
-            variant="outline-secondary"
-            size="lg"
-            onClick={handleNavigateBack}
-          >
-            cancelar
-          </Button>
-
+        <section>
           {hiddenScores && match.status === MATCH_STATUS.COMPLETED && (
             <Button
               type="button"
@@ -72,43 +63,60 @@ export const EditMatchForm: FC<Props> = ({
                 setIsModifyingScores(true);
                 setHiddenScores(false);
               }}
-              className="absolute top-5 right-5"
+              className="mb-3 w-full lg:absolute lg:top-5 lg:right-5 lg:mb-0 lg:w-fit"
             >
               modificar marcadores
             </Button>
           )}
 
-          {!hiddenScores && match?.status === MATCH_STATUS.COMPLETED && (
-            <UpdateMatchScore
-              match={match}
-              setHiddenScores={(value) => {
-                setHiddenScores(value);
-                setIsModifyingScores(false);
-              }}
-            />
-          )}
+          <div className="flex gap-3 lg:justify-end">
+            <div className="w-1/2 lg:w-fit">
+              <Button
+                type="button"
+                variant="outline-secondary"
+                size="lg"
+                onClick={handleNavigateBack}
+                className="w-full lg:w-fit"
+              >
+                cancelar
+              </Button>
+            </div>
 
-          {!isModifyingScores && (
-            <Button
-              type="submit"
-              variant="outline-primary"
-              size="lg"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? (
-                <span className="flex items-center gap-2 text-secondary-foreground animate-pulse">
-                  <span role="status" className="text-sm italic">Espere</span>
-                  <LoaderCircle
-                    className="size-4 animate-spin"
-                    role="img"
-                    aria-label="Icono de carga"
-                  />
-                </span>
-              ) : (
-                <span>guardar</span>
-              )}
-            </Button>
-          )}
+            {!hiddenScores && match?.status === MATCH_STATUS.COMPLETED && (
+              <UpdateMatchScore
+                match={match}
+                setHiddenScores={(value) => {
+                  setHiddenScores(value);
+                  setIsModifyingScores(false);
+                }}
+              />
+            )}
+
+            {!isModifyingScores && (
+              <div className="w-1/2 lg:w-fit">
+                <Button
+                  type="submit"
+                  variant="outline-primary"
+                  size="lg"
+                  disabled={form.formState.isSubmitting}
+                  className="w-full lg:w-fit"
+                >
+                  {form.formState.isSubmitting ? (
+                    <span className="flex items-center gap-2 text-secondary-foreground animate-pulse">
+                      <span role="status" className="text-sm italic">Espere</span>
+                      <LoaderCircle
+                        role="img"
+                        aria-label="Icono de carga"
+                        className="size-4 animate-spin"
+                      />
+                    </span>
+                  ) : (
+                    <span>guardar</span>
+                  )}
+                </Button>
+              </div>
+            )}
+          </div>
         </section>
       </form>
     </Form>

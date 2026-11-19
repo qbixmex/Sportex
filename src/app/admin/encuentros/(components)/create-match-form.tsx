@@ -47,35 +47,40 @@ export const CreateMatchForm: FC<Props> = ({
             fields={fields}
           />
 
-          <section className="flex justify-end gap-3">
-            <Button
-              type="button"
-              variant="outline-secondary"
-              size="lg"
-              onClick={handleNavigateBack}
-            >
-              cancelar
-            </Button>
-
-            <Button
-              type="submit"
-              variant="outline-primary"
-              size="lg"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? (
-                <span className="flex items-center gap-2 text-secondary-foreground animate-pulse">
-                  <span className="text-sm italic">Espere</span>
-                  <LoaderCircle
-                    className="size-4 animate-spin"
-                    role="img"
-                    aria-label="Icono de carga"
-                  />
-                </span>
-              ) : (
-                <Fragment>crear</Fragment>
-              )}
-            </Button>
+          <section className="flex gap-3 lg:justify-end">
+            <div className="w-1/2 lg:w-fit">
+              <Button
+                type="button"
+                variant="outline-secondary"
+                size="lg"
+                onClick={handleNavigateBack}
+                className="w-full lg:w-fit"
+              >
+                cancelar
+              </Button>
+            </div>
+            <div className="w-1/2 lg:w-fit">
+              <Button
+                type="submit"
+                variant="outline-primary"
+                size="lg"
+                disabled={form.formState.isSubmitting}
+                className="w-full lg:w-fit"
+              >
+                {form.formState.isSubmitting ? (
+                  <span className="flex items-center gap-2 text-secondary-foreground animate-pulse">
+                    <span className="text-sm italic">Espere</span>
+                    <LoaderCircle
+                      className="size-4 animate-spin"
+                      role="img"
+                      aria-label="Icono de carga"
+                    />
+                  </span>
+                ) : (
+                  <Fragment>crear</Fragment>
+                )}
+              </Button>
+            </div>
           </section>
         </form>
       </Form>

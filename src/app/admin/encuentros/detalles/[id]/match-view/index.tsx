@@ -22,9 +22,10 @@ import { resolveFieldMaps } from '@/lib/maps';
 import { formatInTimeZone } from 'date-fns-tz';
 import { ROUTES } from '@/shared/constants/routes';
 import { EditMatch } from '../../../(components)/edit-match';
-const TIME_ZONE = 'America/Mexico_City';
 import { getMatchMode } from '@/lib/utils';
 import styles from './styles.module.css';
+
+const TIME_ZONE = 'America/Mexico_City';
 
 type Props = Readonly<{
   params: Promise<{
@@ -50,8 +51,8 @@ export const MatchView: FC<Props> = async ({ params }) => {
 
   return (
     <>
-      <section className="flex flex-col xl:flex-row gap-5">
-        <div className="w-full xl:w-1/2">
+      <section className={styles.layout}>
+        <div className={styles.halfColumn}>
           <MatchResults
             local={{
               name: match.localTeam.name,
@@ -68,8 +69,8 @@ export const MatchView: FC<Props> = async ({ params }) => {
           />
         </div>
 
-        <div className="w-full xl:w-1/2">
-          <Table>
+        <div className={styles.halfColumn}>
+          <Table className={styles.detailsTable}>
             <TableBody>
               <TableRow>
                 <TableHead className={styles.tableHead}>Torneo</TableHead>
@@ -108,7 +109,7 @@ export const MatchView: FC<Props> = async ({ params }) => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableHead>Jornada</TableHead>
+                <TableHead className={styles.tableHead}>Jornada</TableHead>
                 <TableCell>
                   <span role="text" aria-label="Jornada del encuentro">
                     {match.week}
@@ -130,7 +131,7 @@ export const MatchView: FC<Props> = async ({ params }) => {
                 <TableCell>
                   <Badge
                     variant={getMatchStatus(match.status).variant}
-                    className="uppercase"
+                    className={styles.badgeLabel}
                     role="status"
                     aria-label="Estado del encuentro"
                   >
@@ -147,7 +148,7 @@ export const MatchView: FC<Props> = async ({ params }) => {
                         ? 'outline-primary'
                         : 'outline-special'
                     }
-                    className="uppercase"
+                    className={styles.badgeLabel}
                     role="status"
                     aria-label="Modo del encuentro"
                   >
@@ -161,7 +162,7 @@ export const MatchView: FC<Props> = async ({ params }) => {
       </section>
 
       {matchMaps.length > 0 && (
-        <FieldsMap maps={matchMaps} variant="admin" className="mt-10 mb-10" />
+        <FieldsMap maps={matchMaps} variant="admin" className={styles.fieldsMap} />
       )}
 
       {

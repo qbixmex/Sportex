@@ -13,20 +13,18 @@ type Props = Readonly<{
 export const MatchPage: FC<Props> = async ({ params }) => {
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader>
-            <CardTitle className="admin-page-card-title">
-              Información del Encuentro
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Suspense fallback={<MatchViewSkeleton />}>
-              <MatchView params={params} />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader>
+          <CardTitle className="admin-page-card-title">
+            Detalles del partido
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Suspense fallback={<MatchViewSkeleton />}>
+            <MatchView params={params} />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 };

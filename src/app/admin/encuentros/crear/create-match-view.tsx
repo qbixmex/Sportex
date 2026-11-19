@@ -1,4 +1,3 @@
-import { randomBytes } from 'node:crypto';
 import type { FC } from 'react';
 import { CreateMatchForm } from '../(components)/create-match-form';
 import { fetchTournamentsForMatchAction } from '@/app/admin/encuentros/(actions)/fetch-tournaments-for-match.action';
@@ -81,7 +80,7 @@ export const MatchView: FC<Props> = async ({ searchParams }) => {
 
   return (
     <CreateMatchForm
-      key={randomBytes(8).toString('hex')}
+      key={`${tournamentPermalink ?? 'tournament'}-${categoryPermalink ?? 'category'}`}
       tournaments={tournamentsResponse.tournaments}
       categories={categories}
       teams={teams}

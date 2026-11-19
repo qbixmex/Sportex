@@ -80,7 +80,7 @@ export const FormFields: FC<Props> = ({
           <MatchDateTimeFields />
         </div>
 
-        <div className="w-full lg:w-1/2 flex justify-end gap-5">
+        <div className="w-full lg:w-1/2 flex flex-col gap-5 lg:flex-row lg:justify-end">
           <div>
             {((!match) || (match?.status !== MATCH_STATUS.COMPLETED)) && (
               <StatusField />

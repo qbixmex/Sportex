@@ -18,23 +18,21 @@ type Props = Readonly<{
 export const EditMatchPage: FC<Props> = ({ params, searchParams }) => {
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle className="admin-page-card-title">
-              Editar Encuentro
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Suspense fallback={<FormSkeleton />}>
-              <EditMatchView
-                params={params}
-                searchParams={searchParams}
-              />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle className="admin-page-card-title">
+            Editar Encuentro
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Suspense fallback={<FormSkeleton />}>
+            <EditMatchView
+              params={params}
+              searchParams={searchParams}
+            />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 };
