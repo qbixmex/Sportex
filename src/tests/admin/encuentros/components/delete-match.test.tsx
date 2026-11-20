@@ -54,10 +54,38 @@ describe('Test on <DeleteMatch /> component', () => {
     expect(triggerButton().querySelector('svg')).toBeInTheDocument();
   });
 
-  test('Should render nothing when the match is completed', () => {
-    renderComponent(MATCH_STATUS.COMPLETED);
+  test('Should render the trigger button when the match is completed', () => {
+    const { triggerButton } = renderComponent(MATCH_STATUS.COMPLETED);
 
-    expect(screen.queryByRole('button', { name: /eliminar encuentro/i })).not.toBeInTheDocument();
+    expect(triggerButton()).toBeInTheDocument();
+    expect(triggerButton().querySelector('svg')).toBeInTheDocument();
+  });
+
+  test('Should show the standings warning on a completed match', async () => {
+    const { user, triggerButton } = renderComponent(MATCH_STATUS.COMPLETED);
+
+    await user.click(triggerButton());
+
+    expect(screen.getByText(/se re-calcularán los puntos de la tabla/i)).toBeInTheDocument();
+  });
+
+  test('Should not show the standings warning on a scheduled match', async () => {
+    const { user, triggerButton } = renderComponent(MATCH_STATUS.SCHEDULED);
+
+    await user.click(triggerButton());
+
+    expect(screen.queryByText(/se re-calcularán los puntos de la tabla/i)).not.toBeInTheDocument();
+  });
+
+  test('Should allow deleting a completed match', async () => {
+    const { user, triggerButton, confirmButton } = renderComponent(MATCH_STATUS.COMPLETED);
+
+    await user.click(triggerButton());
+    await user.click(confirmButton());
+
+    await waitFor(() => {
+      expect(mockDeleteAction).toHaveBeenCalledWith(matchId);
+    });
   });
 
   test('Should call deleteMatchAction on confirm', async () => {
