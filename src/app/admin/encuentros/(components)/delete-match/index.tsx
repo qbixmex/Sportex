@@ -27,7 +27,7 @@ type Props = Readonly<{
 }>;
 
 export const DeleteMatch: FC<Props> = ({ id, status }) => {
-  if (status === MATCH_STATUS.COMPLETED) return null;
+  const isCompleted = status === MATCH_STATUS.COMPLETED;
 
   const onDeleteMatch = async (id: string) => {
     const guard = await requireAdmin();
@@ -68,8 +68,15 @@ export const DeleteMatch: FC<Props> = ({ id, status }) => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>¿ Estas seguro de eliminar el encuentro ?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Esta acción no se puede deshacer y el encuentro será eliminado de la base de datos permanentemente.
+          <AlertDialogDescription asChild>
+            <div className="space-y-2">
+              <p>Esta acción no se puede deshacer y el encuentro será eliminado de la base de datos permanentemente.</p>
+              {isCompleted && (
+                <p className="font-semibold">
+                  Este encuentro está finalizado; al eliminarlo se re-calcularán los puntos de la tabla de posiciones.
+                </p>
+              )}
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
