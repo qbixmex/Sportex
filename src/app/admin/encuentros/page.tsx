@@ -1,14 +1,15 @@
-import { Suspense, type FC } from 'react';
+import type { FC } from 'react';
+import { Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ErrorHandler } from '@/shared/components/errorHandler';
-import { ClearFilters } from './(components)/clear-filters';
-import { MatchesView } from './matches-view';
 import type { MATCH_MODE_TYPE, MATCH_STATUS_TYPE } from '@/shared/enums';
+import { ErrorHandler } from '@/shared/components/errorHandler';
+import { SearchParamsSelectors } from '@/shared/components/search-params-selectors';
 import { TournamentsSelectorSkeleton } from '../../(public)/components';
+import { MatchesView } from './matches-view';
+import { ClearFilters } from './(components)/clear-filters';
+import { CreateMatchButtonSkeleton } from './(components)/create-match/create-match-skeleton';
 import { CreateMatch } from './(components)/create-match';
 import { Search } from './(components)/search';
-import { SearchParamsSelectors } from '@/shared/components/search-params-selectors';
-import { CreateMatchButtonSkeleton } from './(components)/create-match/create-match-skeleton';
 
 type Props = Readonly<{
   searchParams: Promise<{
