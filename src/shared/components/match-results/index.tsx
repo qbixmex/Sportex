@@ -27,7 +27,7 @@ export const MatchResults: FC<Props> = ({
   className,
 }) => (
   <div className={cn(styles.wrapper, className)}>
-    <div className={cn(styles.team, styles.teamLocal)}>
+    <div className={cn(styles.field, styles.fieldLocal)}>
       <Link href={local.href} target="_blank" rel="noreferrer">
         {local.imageUrl ? (
           <Image
@@ -38,7 +38,7 @@ export const MatchResults: FC<Props> = ({
             className={styles.shield}
           />
         ) : (
-          <ShieldBan size={80} strokeWidth={1} className="stroke-gray-400" />
+          <ShieldBan className={styles.shieldPlaceholder} />
         )}
       </Link>
       <div className={styles.teamName}>
@@ -53,7 +53,7 @@ export const MatchResults: FC<Props> = ({
       </div>
     </div>
 
-    <div className={cn(styles.team, styles.teamVisitor)}>
+    <div className={cn(styles.field, styles.fieldVisitor)}>
       <Link href={visitor.href} target="_blank" rel="noreferrer">
         {visitor.imageUrl ? (
           <Image
@@ -64,7 +64,7 @@ export const MatchResults: FC<Props> = ({
             className={styles.shield}
           />
         ) : (
-          <ShieldBan size={80} strokeWidth={1} className="stroke-gray-400" />
+          <ShieldBan className={styles.shieldPlaceholder} />
         )}
       </Link>
       <div className={styles.teamName}>

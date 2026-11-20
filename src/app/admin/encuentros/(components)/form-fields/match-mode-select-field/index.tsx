@@ -29,8 +29,8 @@ export const MatchModeSelectField: FC = () => {
             onValueChange={field.onChange}
           >
             <SelectTrigger
-              className="w-full min-w-30"
               aria-invalid={fieldState.invalid}
+              className="w-full min-w-30"
             >
               <SelectValue placeholder="Seleccione tipo de partido" />
             </SelectTrigger>

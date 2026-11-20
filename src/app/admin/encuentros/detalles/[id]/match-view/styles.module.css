@@ -1,8 +1,100 @@
 @reference "#globals.css";
 
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(5);
+
+  @variant xl {
+    flex-direction: row;
+  }
+}
+
+.halfColumn {
+  width: 100%;
+
+  @variant xl {
+    width: 50%;
+  }
+}
+
 .tableHead {
-  width: 180px;
+  width: 100%;
   font-weight: 600;
+
+  @variant md {
+    width: 180px;
+  }
+}
+
+.detailsTable {
+  display: block;
+
+  @variant md {
+    display: table;
+  }
+}
+
+.detailsTable tbody {
+  display: block;
+
+  @variant md {
+    display: table-row-group;
+  }
+}
+
+.detailsTable tr {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(1);
+  padding-block: --spacing(3);
+
+  @variant md {
+    display: table-row;
+    padding-block: 0;
+  }
+}
+
+.detailsTable th,
+.detailsTable td {
+  height: auto;
+  white-space: normal;
+
+  @variant md {
+    height: --spacing(10);
+    white-space: nowrap;
+  }
+}
+
+.detailsTable th {
+  font-size: var(--text-xs);
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  @variant md {
+    font-size: var(--text-sm);
+    color: var(--color-foreground);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+}
+
+.detailsTable td {
+  font-size: var(--text-base);
+
+  @variant md {
+    font-size: var(--text-sm);
+  }
+}
+
+.badgeLabel {
+  text-transform: uppercase;
+}
+
+.undefinedText {
+  font-style: italic;
+  color: var(--color-gray-500);
 }
 
 .penaltyShootsHeading {
@@ -22,6 +114,11 @@
     width: 50%;
     flex-direction: row;
   }
+}
+
+.fieldsMap {
+  margin-top: --spacing(10);
+  margin-bottom: --spacing(10);
 }
 
 .editMatch {
