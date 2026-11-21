@@ -33,35 +33,33 @@ export const GalleryDetailsView: FC<Props> = async ({ params }) => {
 
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle className="admin-page-card-title">Detalles de la Galería</CardTitle>
-            <div className="space-x-2">
-              <AddImage
-                galleryId={gallery.id as string}
-                imagesQuantity={gallery.images.length}
-              />
-              <EditGallery galleryId={gallery.id} />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <GalleryData
-              gallery={{
-                id: gallery.id,
-                title: gallery.title,
-                permalink: gallery.permalink,
-                galleryDate: gallery.galleryDate,
-                active: gallery.active,
-                createdAt: gallery.createdAt,
-                updatedAt: gallery.updatedAt,
-              }}
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle className="admin-page-card-title">Detalles de la Galería</CardTitle>
+          <div className="space-x-2">
+            <AddImage
+              galleryId={gallery.id as string}
+              imagesQuantity={gallery.images.length}
             />
+            <EditGallery galleryId={gallery.id} />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <GalleryData
+            gallery={{
+              id: gallery.id,
+              title: gallery.title,
+              permalink: gallery.permalink,
+              galleryDate: gallery.galleryDate,
+              active: gallery.active,
+              createdAt: gallery.createdAt,
+              updatedAt: gallery.updatedAt,
+            }}
+          />
 
-            <GalleryImages images={gallery.images} />
-          </CardContent>
-        </Card>
-      </div>
+          <GalleryImages images={gallery.images} />
+        </CardContent>
+      </Card>
     </div>
   );
 };

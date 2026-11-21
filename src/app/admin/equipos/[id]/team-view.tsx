@@ -49,210 +49,208 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
 
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle className="admin-page-card-title">Detalles del Equipo</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <section className="flex flex-col gap-5 xl:flex-row lg:gap-10 mb-5 lg:mb-10">
-              {
-                !team.imageUrl ? (
-                  <div className="bg-gray-200 dark:bg-gray-800 w-full max-w-[512px] h-auto rounded-xl flex items-center justify-center">
-                    <ShieldBan size={512} strokeWidth={1} className="stroke-gray-400" />
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle className="admin-page-card-title">Detalles del Equipo</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <section className="flex flex-col gap-5 xl:flex-row lg:gap-10 mb-5 lg:mb-10">
+            {
+              !team.imageUrl ? (
+                <div className="bg-gray-200 dark:bg-gray-800 w-full max-w-[512px] h-auto rounded-xl flex items-center justify-center">
+                  <ShieldBan size={512} strokeWidth={1} className="stroke-gray-400" />
+                </div>
+              ) : (
+                <div className="w-full">
+                  <div className="w-full max-w-[512px] h-auto relative">
+                    <Image
+                      src={team.imageUrl}
+                      width={512}
+                      height={512}
+                      alt={`imagen de perfil de ${team.name}`}
+                      className="rounded-lg size-[512px] object-cover"
+                    />
+                    <DeleteTeamImage
+                      teamId={team.id}
+                      className="absolute top-2 right-2"
+                    />
                   </div>
-                ) : (
-                  <div className="w-full">
-                    <div className="w-full max-w-[512px] h-auto relative">
-                      <Image
-                        src={team.imageUrl}
-                        width={512}
-                        height={512}
-                        alt={`imagen de perfil de ${team.name}`}
-                        className="rounded-lg size-[512px] object-cover"
-                      />
-                      <DeleteTeamImage
-                        teamId={team.id}
-                        className="absolute top-2 right-2"
-                      />
-                    </div>
-                  </div>
-                )
-              }
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableHead className="font-semibold w-[180px]">Nombre</TableHead>
-                    <TableCell>{team.name}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-semibold">Categoría</TableHead>
-                    <TableCell>{team.category?.name ?? 'Aún no asignada'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-semibold">Formato</TableHead>
-                    <TableCell>{team.format + ' vs ' + team.format}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-semibold">Rama</TableHead>
-                    <TableCell>
-                      {
-                        (team.gender === 'male')
-                          ? 'Varonil'
-                          : (team.gender === 'female')
-                            ? 'Femenil'
-                            : 'No definido'
-                      }
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-semibold">País</TableHead>
-                    <TableCell>{team.country}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-semibold">Estado</TableHead>
-                    <TableCell>{team.state}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-semibold">Ciudad</TableHead>
-                    <TableCell>{team.city}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-semibold">Torneo</TableHead>
-                    <TableCell>
-                      {team.tournament ? (
-                        <Link href={`/admin/torneos/${team.tournament.id}`}>
-                          {team.tournament.name}
-                        </Link>
-                      ) : (
-                        <Badge variant="outline-secondary">No Asignado</Badge>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-semibold">Entrenador</TableHead>
-                    <TableCell>
-                      {(team.coach) ? (
-                        <Link href={`/admin/entrenadores/perfil/${team.coach?.id}`}>
-                          {team.coach.name}
-                        </Link>
-                      ) : (
-                        <Badge variant="outline-secondary">No Asignado</Badge>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="font-medium w-[180px]">Estado</TableHead>
-                    <TableCell>
-                      {
-                        team.active
-                          ? <Badge variant="outline-info">Activo</Badge>
-                          : <Badge variant="outline-warning">No Activo</Badge>
-                      }
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </section>
-
-            <FieldsMap
-              maps={fieldMaps}
-              variant="admin"
-              className="mt-10 mb-10"
-            />
-
-            <section>
-              <div className="flex flex-col lg:flex-row gap-10">
-                <div className="w-full lg:w-1/2">
-                  <div className="flex justify-between">
-                    <h2 className="text-xl font-bold text-sky-600 mb-5">Jugadores</h2>
-                    <DeletePlayers teamId={teamId} />
-                  </div>
-                  {
-                    team.players && (team.players.length === 0) ? (
-                      <section className="space-y-5">
-                        <div className="border-2 border-cyan-600 rounded-lg px-2 py-4">
-                          <p className="text-cyan-600 text-center font-bold">
-                            Aún no hay jugadores registrados
-                          </p>
-                        </div>
-                        <GenerateGenericPlayers
-                          teamId={team.id}
-                          gender={team.gender}
-                        />
-                      </section>
+                </div>
+              )
+            }
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableHead className="font-semibold w-[180px]">Nombre</TableHead>
+                  <TableCell>{team.name}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-semibold">Categoría</TableHead>
+                  <TableCell>{team.category?.name ?? 'Aún no asignada'}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-semibold">Formato</TableHead>
+                  <TableCell>{team.format + ' vs ' + team.format}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-semibold">Rama</TableHead>
+                  <TableCell>
+                    {
+                      (team.gender === 'male')
+                        ? 'Varonil'
+                        : (team.gender === 'female')
+                          ? 'Femenil'
+                          : 'No definido'
+                    }
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-semibold">País</TableHead>
+                  <TableCell>{team.country}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-semibold">Estado</TableHead>
+                  <TableCell>{team.state}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-semibold">Ciudad</TableHead>
+                  <TableCell>{team.city}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-semibold">Torneo</TableHead>
+                  <TableCell>
+                    {team.tournament ? (
+                      <Link href={`/admin/torneos/${team.tournament.id}`}>
+                        {team.tournament.name}
+                      </Link>
                     ) : (
-                      <div className="flex flex-wrap gap-3">
-                        {team.players?.map(({ id, name }) => (
-                          <Link key={id} href={`/admin/jugadores/perfil/${id}`}>
-                            <Badge variant="outline-info">{name}</Badge>
-                          </Link>
-                        ))}
-                      </div>
-                    )
-                  }
-                </div>
-                <div className="w-full lg:w-1/2">
-                  <h2 className="text-xl font-bold text-sky-600">Datos Adicionales</h2>
-                  <Table>
-                    <TableBody>
-                      <TableRow>
-                        <TableHead className="w-[180px] font-semibold">Enlace Permanente</TableHead>
-                        <TableCell>{team.permalink}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableHead className="w-[180px] font-semibold">Dirección</TableHead>
-                        <TableCell>
-                          <span className="text-wrap">
-                            {team.address ?? 'No especificada'}
-                          </span>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableHead className="font-semibold">
-                          Sede{team.fields.length > 1 ? 's' : ''}
-                        </TableHead>
-                        <TableCell className="flex flex-wrap gap-2">
-                          {(team.fields.length > 0) ? team.fields.map((field) => (
-                            <Link
-                              key={field.id}
-                              href={ROUTES.ADMIN_FIELDS_SHOW(field.id)}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <Badge variant="outline-info">
-                                {field.name}
-                              </Badge>
-                            </Link>
-                          )) : (
-                            <Badge variant="outline-secondary">No asignada</Badge>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableHead className="w-[180px] font-semibold">Fecha de Creación</TableHead>
-                        <TableCell>
-                          {format(new Date(team?.createdAt as Date), "d 'de' MMMM 'del' yyyy", { locale: es })}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableHead className="w-[180px] font-semibold">Última actualización</TableHead>
-                        <TableCell>
-                          {format(new Date(team?.updatedAt as Date), "d 'de' MMMM 'del' yyyy", { locale: es })}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </div>
-              </div>
-            </section>
+                      <Badge variant="outline-secondary">No Asignado</Badge>
+                    )}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-semibold">Entrenador</TableHead>
+                  <TableCell>
+                    {(team.coach) ? (
+                      <Link href={`/admin/entrenadores/perfil/${team.coach?.id}`}>
+                        {team.coach.name}
+                      </Link>
+                    ) : (
+                      <Badge variant="outline-secondary">No Asignado</Badge>
+                    )}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="font-medium w-[180px]">Estado</TableHead>
+                  <TableCell>
+                    {
+                      team.active
+                        ? <Badge variant="outline-info">Activo</Badge>
+                        : <Badge variant="outline-warning">No Activo</Badge>
+                    }
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </section>
 
-            <div className="absolute top-5 right-5">
-              <EditTeam teamId={team.id} />
+          <FieldsMap
+            maps={fieldMaps}
+            variant="admin"
+            className="mt-10 mb-10"
+          />
+
+          <section>
+            <div className="flex flex-col lg:flex-row gap-10">
+              <div className="w-full lg:w-1/2">
+                <div className="flex justify-between">
+                  <h2 className="text-xl font-bold text-sky-600 mb-5">Jugadores</h2>
+                  <DeletePlayers teamId={teamId} />
+                </div>
+                {
+                  team.players && (team.players.length === 0) ? (
+                    <section className="space-y-5">
+                      <div className="border-2 border-cyan-600 rounded-lg px-2 py-4">
+                        <p className="text-cyan-600 text-center font-bold">
+                          Aún no hay jugadores registrados
+                        </p>
+                      </div>
+                      <GenerateGenericPlayers
+                        teamId={team.id}
+                        gender={team.gender}
+                      />
+                    </section>
+                  ) : (
+                    <div className="flex flex-wrap gap-3">
+                      {team.players?.map(({ id, name }) => (
+                        <Link key={id} href={`/admin/jugadores/perfil/${id}`}>
+                          <Badge variant="outline-info">{name}</Badge>
+                        </Link>
+                      ))}
+                    </div>
+                  )
+                }
+              </div>
+              <div className="w-full lg:w-1/2">
+                <h2 className="text-xl font-bold text-sky-600">Datos Adicionales</h2>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <TableHead className="w-[180px] font-semibold">Enlace Permanente</TableHead>
+                      <TableCell>{team.permalink}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableHead className="w-[180px] font-semibold">Dirección</TableHead>
+                      <TableCell>
+                        <span className="text-wrap">
+                          {team.address ?? 'No especificada'}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableHead className="font-semibold">
+                        Sede{team.fields.length > 1 ? 's' : ''}
+                      </TableHead>
+                      <TableCell className="flex flex-wrap gap-2">
+                        {(team.fields.length > 0) ? team.fields.map((field) => (
+                          <Link
+                            key={field.id}
+                            href={ROUTES.ADMIN_FIELDS_SHOW(field.id)}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <Badge variant="outline-info">
+                              {field.name}
+                            </Badge>
+                          </Link>
+                        )) : (
+                          <Badge variant="outline-secondary">No asignada</Badge>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableHead className="w-[180px] font-semibold">Fecha de Creación</TableHead>
+                      <TableCell>
+                        {format(new Date(team?.createdAt as Date), "d 'de' MMMM 'del' yyyy", { locale: es })}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableHead className="w-[180px] font-semibold">Última actualización</TableHead>
+                      <TableCell>
+                        {format(new Date(team?.updatedAt as Date), "d 'de' MMMM 'del' yyyy", { locale: es })}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </section>
+
+          <div className="absolute top-5 right-5">
+            <EditTeam teamId={team.id} />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

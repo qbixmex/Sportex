@@ -12,24 +12,22 @@ type Props = Readonly<{
 const FieldPage: FC<Props> = ({ params }) => {
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle
-              className="admin-page-card-title"
-              role="heading"
-              aria-label="Título de la página"
-            >
-              Detalles de la Cancha
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Suspense fallback={<FieldViewSkeleton />}>
-              <FieldView params={params} />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle
+            className="admin-page-card-title"
+            role="heading"
+            aria-label="Título de la página"
+          >
+            Detalles de la Cancha
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Suspense fallback={<FieldViewSkeleton />}>
+            <FieldView params={params} />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 };
