@@ -375,45 +375,36 @@
     flex-direction: column;
     gap: --spacing(5);
     padding: --spacing(5);
-    padding-top: 0;
-    min-height: 100dvh;
-  }
-
-  .admin-page-container {
-    background-color: --alpha(var(--color-muted) / 50%);
-    min-height: 100vh;
-    display: flex;
-    flex: 1;
-    border-radius: var(--radius-xl);
-    padding: --spacing(10);
-
-    @variant md {
-      min-height: min-content;
-    }
   }
 
   .admin-page-card {
+    flex: 1;
     position: relative;
     width: 100%;
     background-color: var(--color-neutral-100);
+    
+    @variant md {
+      min-height: min-content;
+    }
+    
     @apply shadow-none;
-
     @apply dark:bg-linear-to-br dark:from-zinc-950 dark:to-zinc-800;
   }
 
   .admin-page-card-header {
     display: flex;
-    flex-direction: column !important;
-
+    flex-direction: column;
+    justify-content: center;
+    
     @variant lg {
-      flex-direction: row !important;
-      align-items: center !important;
-      justify-content: center !important;
-    };
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 
   .admin-page-card-title {
-    background-color: var(--color-emerald-500) !important;
+    color: var(--color-emerald-500) !important;
     font-size: var(--text-2xl);
 
     @variant lg {
