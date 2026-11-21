@@ -14,23 +14,21 @@ import { FieldSelectField } from '../(components)/form-fields/field-select-field
 const CreateTeamPage = () => {
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle className="admin-page-card-title">Crear Equipo</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Suspense>
-              <CreateTeamForm
-                tournamentSlot={<TournamentSelectField />}
-                categorySlot={<CategorySelectField />}
-                coachesSlot={<CoachSelectField />}
-                fieldsSlot={<FieldSelectField />}
-              />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle className="admin-page-card-title">Crear Equipo</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Suspense>
+            <CreateTeamForm
+              tournamentSlot={<TournamentSelectField />}
+              categorySlot={<CategorySelectField />}
+              coachesSlot={<CoachSelectField />}
+              fieldsSlot={<FieldSelectField />}
+            />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 };

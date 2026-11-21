@@ -1,5 +1,5 @@
 import { Suspense, type FC } from 'react';
-import { CustomSponsorsContent } from './(components)/sponsors-content';
+import { CustomSponsorsView } from './(components)/sponsors-view';
 
 type Props = Readonly<{
   searchParams: Promise<{
@@ -11,7 +11,7 @@ type Props = Readonly<{
 const SponsorsPage: FC<Props> = ({ searchParams }) => {
   return (
     <Suspense>
-      <CustomSponsorsContent searchParams={searchParams} />
+      <CustomSponsorsView searchParams={searchParams} />
     </Suspense>
   );
 };

@@ -13,16 +13,14 @@ const MessagePage: FC<Props> = ({ params }) => {
   return (
     <Suspense>
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">Detalles del Mensaje</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ContactMessageView params={params} />
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">Detalles del Mensaje</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ContactMessageView params={params} />
+          </CardContent>
+        </Card>
       </div>
     </Suspense>
   );

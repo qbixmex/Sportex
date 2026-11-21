@@ -11,24 +11,22 @@ type Props = Readonly<{
 const EditAnnouncementPage: FC<Props> = ({ params }) => {
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle
-              className="admin-page-card-title"
-              role="heading"
-              aria-level={1}
-            >
-              Editar Noticia
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Suspense>
-              <EditAnnouncementView params={params} />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle
+            className="admin-page-card-title"
+            role="heading"
+            aria-level={1}
+          >
+            Editar Noticia
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Suspense>
+            <EditAnnouncementView params={params} />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 };

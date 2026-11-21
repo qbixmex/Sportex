@@ -14,27 +14,25 @@ type Props = Readonly<{
 const TournamentPage: FC<Props> = ({ params }) => {
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle
-              className="admin-page-card-title"
-              role="heading"
-              aria-label="Título de la página"
-            >
-              Información del Torneo
-            </CardTitle>
-            <Suspense fallback={<EditTournamentSkeleton />}>
-              <EditTournamentWrapper params={params} />
-            </Suspense>
-          </CardHeader>
-          <CardContent>
-            <Suspense fallback={<TournamentViewSkeleton />}>
-              <TournamentView paramsPromise={params} />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle
+            className="admin-page-card-title"
+            role="heading"
+            aria-label="Título de la página"
+          >
+            Información del Torneo
+          </CardTitle>
+          <Suspense fallback={<EditTournamentSkeleton />}>
+            <EditTournamentWrapper params={params} />
+          </Suspense>
+        </CardHeader>
+        <CardContent>
+          <Suspense fallback={<TournamentViewSkeleton />}>
+            <TournamentView paramsPromise={params} />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 };

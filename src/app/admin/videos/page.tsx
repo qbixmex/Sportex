@@ -17,24 +17,22 @@ const VideosPage: FC<Props> = ({ searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">
-                Videos
-              </CardTitle>
-              <section className="flex gap-5 items-center">
-                <Search placeholder="Buscar video" />
-                <CreateVideo />
-              </section>
-            </CardHeader>
-            <CardContent>
-              <Suspense>
-                <VideosView searchParams={searchParams} />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">
+              Videos
+            </CardTitle>
+            <section className="flex gap-5 items-center">
+              <Search placeholder="Buscar video" />
+              <CreateVideo />
+            </section>
+          </CardHeader>
+          <CardContent>
+            <Suspense>
+              <VideosView searchParams={searchParams} />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

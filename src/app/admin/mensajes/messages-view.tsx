@@ -20,27 +20,25 @@ export const MessagesView: FC<Props> = async ({ searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">Mensajes</CardTitle>
-              <section className="flex gap-5 items-center">
-                <Search placeholder="Buscar Mensaje ..." />
-              </section>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col">
-              <Suspense
-                key={`${query}-${currentPage}`}
-                fallback={<MessagesTableSkeleton />}
-              >
-                <MessagesTable
-                  query={query}
-                  currentPage={currentPage}
-                />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">Mensajes</CardTitle>
+            <section className="flex gap-5 items-center">
+              <Search placeholder="Buscar Mensaje ..." />
+            </section>
+          </CardHeader>
+          <CardContent className="flex-1 flex flex-col">
+            <Suspense
+              key={`${query}-${currentPage}`}
+              fallback={<MessagesTableSkeleton />}
+            >
+              <MessagesTable
+                query={query}
+                currentPage={currentPage}
+              />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

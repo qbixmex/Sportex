@@ -18,24 +18,22 @@ const AnnouncementsPage: FC<Props> = ({ searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title" role="heading" aria-level={1}>
-                Noticias
-              </CardTitle>
-              <section className="flex gap-5 items-center">
-                <Search placeholder="Buscar noticia" />
-                <CreateAnnouncement />
-              </section>
-            </CardHeader>
-            <CardContent>
-              <Suspense>
-                <AnnouncementsView searchParams={searchParams} />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title" role="heading" aria-level={1}>
+              Noticias
+            </CardTitle>
+            <section className="flex gap-5 items-center">
+              <Search placeholder="Buscar noticia" />
+              <CreateAnnouncement />
+            </section>
+          </CardHeader>
+          <CardContent>
+            <Suspense>
+              <AnnouncementsView searchParams={searchParams} />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );
