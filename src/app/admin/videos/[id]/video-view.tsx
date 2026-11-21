@@ -26,99 +26,97 @@ export const VideoView: FC<Props> = async ({ params }) => {
 
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle className="admin-page-card-title">
-              Detalles del Video
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col lg:flex-row gap-5 lg:gap-10 mb-5">
-              <div className="flex-1">
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Título</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {video.title}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Enlace Permanente</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {video.permalink}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Descripción</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        <p className="text-balance">{video.description}</p>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Fecha de publicación</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {
-                          video.publishedDate.toLocaleDateString('es-MX', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          }) ?? 'No definido'
-                        }
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-              <div className="flex-1">
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Plataforma</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {video.platform}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Estado</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        <Badge variant={video.active ? 'outline-info' : 'outline-secondary'}>
-                          {video.active ? 'activo' : 'desactivado'}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Fecha de creación</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {video.createdAt.toLocaleDateString('es-MX', {
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle className="admin-page-card-title">
+            Detalles del Video
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col lg:flex-row gap-5 lg:gap-10 mb-5">
+            <div className="flex-1">
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Título</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {video.title}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Enlace Permanente</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {video.permalink}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Descripción</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      <p className="text-balance">{video.description}</p>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Fecha de publicación</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {
+                        video.publishedDate.toLocaleDateString('es-MX', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric',
-                        })}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Fecha de actualización</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {video.updatedAt.toLocaleDateString('es-MX', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
+                        }) ?? 'No definido'
+                      }
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </div>
+            <div className="flex-1">
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Plataforma</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {video.platform}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Estado</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      <Badge variant={video.active ? 'outline-info' : 'outline-secondary'}>
+                        {video.active ? 'activo' : 'desactivado'}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Fecha de creación</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {video.createdAt.toLocaleDateString('es-MX', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Fecha de actualización</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {video.updatedAt.toLocaleDateString('es-MX', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </div>
 
-            <div className="absolute top-5 right-5">
-              <EditVideo videoId={video.id} />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          <div className="absolute top-5 right-5">
+            <EditVideo videoId={video.id} />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

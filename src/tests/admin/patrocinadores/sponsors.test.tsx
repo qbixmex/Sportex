@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { CustomSponsorsContent } from '@/app/admin/patrocinadores/(components)/sponsors-content';
+import { CustomSponsorsView } from '@/app/admin/patrocinadores/(components)/sponsors-view';
 
 vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams('page=1'),
@@ -23,7 +23,7 @@ vi.mock('@/app/admin/patrocinadores/sponsors-table', () => ({
 
 describe('Test on <SponsorsPage /> component', () => {
   test('Should render correctly', async () => {
-    const ServerComponent = await CustomSponsorsContent({
+    const ServerComponent = await CustomSponsorsView({
       searchParams: Promise.resolve({
         query: undefined,
         page: undefined,

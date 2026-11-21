@@ -17,21 +17,19 @@ export const PlayoffMatchDetailsPage = ({ params }: Props) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">Encuentro</CardTitle>
-              <Suspense>
-                <EditMatchSlot params={params} />
-              </Suspense>
-            </CardHeader>
-            <CardContent>
-              <Suspense fallback={<PlayoffMatchSkeleton />}>
-                <PlayoffMatchView params={params} />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">Encuentro</CardTitle>
+            <Suspense>
+              <EditMatchSlot params={params} />
+            </Suspense>
+          </CardHeader>
+          <CardContent>
+            <Suspense fallback={<PlayoffMatchSkeleton />}>
+              <PlayoffMatchView params={params} />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

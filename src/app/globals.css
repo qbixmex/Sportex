@@ -196,47 +196,65 @@
   .prose h5,
   .prose h6,
   .prose p {
-    @apply m-0 text-gray-600 dark:text-gray-200;
+    margin: 0;
+    color: var(--color-gray-600);
+
+    @variant dark {
+      color: var(--color-gray-200);
+    }
   }
 
   .prose h1 {
     margin-bottom: 0.5em;
-    @apply font-semibold text-5xl;
+    font-weight: 600;
+    font-size: var(--text-5xl);
+    line-height: var(--text-5xl--line-height);
   }
 
   .prose h2 {
     margin-bottom: 0.5em;
-    @apply font-semibold text-4xl;
+    font-weight: 600;
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
   }
 
   .prose h3 {
     margin-bottom: 0.5em;
-    @apply text-3xl;
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
   }
 
   .prose h4 {
     margin-bottom: 0.5em;
-    @apply text-2xl;
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
   }
 
   .prose h5 {
     margin-bottom: 0.5em;
-    @apply text-xl;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
   }
 
   .prose h6 {
     margin-bottom: 0.5em;
-    @apply text-lg;
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
   }
 
   .prose p {
     margin: 0 0 1rem 0;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    text-wrap: pretty;
 
     &:last-child {
       margin-bottom: 0;
     }
 
-    @apply dark:text-muted-foreground text-xl leading-8 text-pretty;
+    @variant dark {
+      color: var(--color-muted-foreground);
+    }
   }
 
   .prose img {
@@ -246,15 +264,17 @@
 
   .prose b,
   .prose strong {
-    @apply text-stone-500 font-bold;
+    color: var(--color-stone-500);
+    font-weight: 600;
   }
 
   .prose hr {
-    @apply border-stone-400! my-10;
-  }
+    border: solid 1px var(--color-stone-400) !important;
+    margin-block: --spacing(10);
 
-  .dark .prose hr {
-    @apply border-stone-700!;
+    @variant dark {
+      border: solid 1px var(--color-stone-700) !important;
+    }
   }
 
   .prose ul,
@@ -263,23 +283,28 @@
   }
 
   .prose li {
-    @apply text-muted-foreground leading-8;
+    color: var(--color-muted-foreground);
+    @apply leading-8;
   }
 
   .prose table {
-    @apply inline-block border-0 mx-0 text-[1rem];
+    display: inline-block;
+    border: none;
+    margin-inline: 0px;
+    font-size: var(--text-base);
   }
 
   .prose tr {
-    @apply rounded-t-lg border-0;
+    border: none;
+    @apply rounded-t-lg;
   }
 
   .prose thead {
-    @apply border-0;
+    border: none;
   }
 
   .prose thead tr th {
-    @apply bg-slate-900/80;
+    background-color: --alpha(var(--color-slate-900) / 80%);
   }
 
   .prose thead tr th:first-child {
@@ -291,16 +316,19 @@
   }
 
   .prose tr:nth-child(odd) {
-    @apply bg-slate-800/20;
+    background-color: --alpha(var(--color-slate-800) / 20%);
   }
 
   .prose tr:nth-child(even) {
-    @apply bg-slate-800/40;
+    background-color: --alpha(var(--color-slate-800) / 40%);
   }
 
   .prose th,
   .prose td {
-    @apply border-0 px-6 py-3 text-left;
+    border: none;
+    padding-inline: --spacing(6);
+    padding-block: --spacing(3);
+    text-align-last: left;
   }
 
   .prose tbody tr:last-child td:first-child {
@@ -312,15 +340,27 @@
   }
 
   .prose a {
-    @apply text-sky-500 hover:underline;
+    color: var(--color-sky-500);
+
+    @variant hover {
+      text-decoration-line: underline;
+    }
   }
 
   .prose blockquote {
-    @apply bg-slate-900 inline-block italic rounded-r-lg py-5 pr-5 text-slate-100;
+    background-color: var(--color-slate-900);
+    color: var(--color-slate-100);
+    display: inline-block;
+    font-style: italic;
+    padding-block: --spacing(5);
+    padding-right: --spacing(5);
+
+    @apply rounded-r-lg;
   }
 
   .prose blockquote p {
-    @apply py-2 mr-10;
+    padding-block: --spacing(2);
+    margin-right: --spacing(10);
   }
 
   .hide-element {
@@ -330,23 +370,45 @@
   }
 
   .admin-page {
-    @apply flex flex-1 flex-col gap-5 p-5 pt-0;
-  }
-
-  .admin-page-container {
-    @apply bg-muted/50 min-h-screen flex-1 flex rounded-xl md:min-h-min p-10;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: --spacing(5);
+    padding: --spacing(5);
   }
 
   .admin-page-card {
-    @apply w-full shadow-none bg-neutral-100;
-    @apply dark:bg-linear-to-br dark:from-zinc-950 dark:to-zinc-800 relative;
+    flex: 1;
+    position: relative;
+    width: 100%;
+    background-color: var(--color-neutral-100);
+    
+    @variant md {
+      min-height: min-content;
+    }
+    
+    @apply shadow-none;
+    @apply dark:bg-linear-to-br dark:from-zinc-950 dark:to-zinc-800;
   }
 
   .admin-page-card-header {
-    @apply flex flex-col! lg:flex-row! lg:items-center! lg:justify-between!;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    @variant lg {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 
   .admin-page-card-title {
-    @apply text-2xl lg:text-4xl text-emerald-500!;
+    color: var(--color-emerald-500) !important;
+    font-size: var(--text-2xl);
+
+    @variant lg {
+      font-size: var(--text-4xl);
+    }
   }
 }

@@ -15,29 +15,27 @@ type Props = Readonly<{
 const CanchasPage: FC<Props> = ({ searchParams }) => {
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle
-              className="admin-page-card-title"
-              role="heading"
-              aria-label="Título de la página"
-            >
-              Canchas
-            </CardTitle>
-            <section className="flex gap-5 items-center">
-              <Search placeholder="Buscar cancha" />
-              <CreateField />
-            </section>
-          </CardHeader>
-          <CardContent>
-            <Suspense>
-              <ErrorHandler />
-              <FieldsView searchParamsPromise={searchParams} />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle
+            className="admin-page-card-title"
+            role="heading"
+            aria-label="Título de la página"
+          >
+            Canchas
+          </CardTitle>
+          <section className="flex gap-5 items-center">
+            <Search placeholder="Buscar cancha" />
+            <CreateField />
+          </section>
+        </CardHeader>
+        <CardContent>
+          <Suspense>
+            <ErrorHandler />
+            <FieldsView searchParamsPromise={searchParams} />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 };

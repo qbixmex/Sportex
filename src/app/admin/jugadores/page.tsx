@@ -25,30 +25,28 @@ export const PlayersPage: FC<Props> = ({ searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">Jugadores</CardTitle>
-              <section className="flex gap-5 items-center">
-                <Search placeholder="Buscar jugador" />
-                <CreatePlayer />
-              </section>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-5 mb-10">
-                <Suspense fallback={<TournamentsSelectorSkeleton />}>
-                  <SearchParamsSelectors tournamentPromise={tournamentPromise} />
-                </Suspense>
-                <Suspense>
-                  <TeamsView searchParams={searchParams} />
-                </Suspense>
-              </div>
-              <Suspense>
-                <PlayersView searchParams={searchParams} />
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">Jugadores</CardTitle>
+            <section className="flex gap-5 items-center">
+              <Search placeholder="Buscar jugador" />
+              <CreatePlayer />
+            </section>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-5 mb-10">
+              <Suspense fallback={<TournamentsSelectorSkeleton />}>
+                <SearchParamsSelectors tournamentPromise={tournamentPromise} />
               </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+              <Suspense>
+                <TeamsView searchParams={searchParams} />
+              </Suspense>
+            </div>
+            <Suspense>
+              <PlayersView searchParams={searchParams} />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

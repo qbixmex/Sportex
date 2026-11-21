@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { Suspense, type FC } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ErrorHandler } from '@/shared/components/errorHandler';
 import { EditPlayoffMatchView } from './edit-playoff-match-view';
@@ -15,16 +15,16 @@ export const EditPlayoffMatchPage: FC<Props> = ({ params }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">Editar Encuentro</CardTitle>
-            </CardHeader>
-            <CardContent>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">Editar Encuentro</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Suspense>
               <EditPlayoffMatchView params={params} />
-            </CardContent>
-          </Card>
-        </div>
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

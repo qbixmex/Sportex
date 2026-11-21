@@ -36,39 +36,37 @@ const CredentialsContent: FC<Props> = async ({ searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">Lista de Credenciales</CardTitle>
-              <section className="flex gap-5 items-center">
-                <Search placeholder="Buscar credencial ..." />
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link href="/admin/credenciales/crear">
-                      <Button variant="outline-primary" size="icon">
-                        <Plus strokeWidth={3} />
-                      </Button>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent side="left">
-                    <p>crear</p>
-                  </TooltipContent>
-                </Tooltip>
-              </section>
-            </CardHeader>
-            <CardContent>
-              <Suspense
-                key={`${query}-${currentPage}`}
-                fallback={<CredentialsTableSkeleton colCount={5} rowCount={6} />}
-              >
-                <CredentialsTable
-                  query={query}
-                  currentPage={currentPage}
-                />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">Lista de Credenciales</CardTitle>
+            <section className="flex gap-5 items-center">
+              <Search placeholder="Buscar credencial ..." />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link href="/admin/credenciales/crear">
+                    <Button variant="outline-primary" size="icon">
+                      <Plus strokeWidth={3} />
+                    </Button>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="left">
+                  <p>crear</p>
+                </TooltipContent>
+              </Tooltip>
+            </section>
+          </CardHeader>
+          <CardContent>
+            <Suspense
+              key={`${query}-${currentPage}`}
+              fallback={<CredentialsTableSkeleton colCount={5} rowCount={6} />}
+            >
+              <CredentialsTable
+                query={query}
+                currentPage={currentPage}
+              />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

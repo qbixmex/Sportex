@@ -11,18 +11,16 @@ type Props = Readonly<{
 const EditVideoPage: FC<Props> = ({ params }) => {
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle className="admin-page-card-title">Editar Video</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Suspense>
-              <EditVideoView params={params} />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle className="admin-page-card-title">Editar Video</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Suspense>
+            <EditVideoView params={params} />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 };
