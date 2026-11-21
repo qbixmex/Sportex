@@ -5,28 +5,30 @@ import prisma from '@/lib/prisma';
 type FetchCredentialResponse = Promise<{
   ok: boolean;
   message: string;
-  credential: {
-    id: string;
-    fullName: string;
-    birthdate: Date;
-    curp: string;
-    position: string;
-    jerseyNumber: number;
-    tournament: {
-      id: string;
-      name: string;
-    };
-    player: {
-      id: string;
-      name: string;
-      imagePublicID: string | null;
-      team: {
-        id?: string,
-        name?: string,
-      };
-    };
-  } | null;
+  credential: CREDENTIAL_TYPE | null;
 }>;
+
+export type CREDENTIAL_TYPE = {
+  id: string;
+  fullName: string;
+  birthdate: Date;
+  curp: string;
+  position: string;
+  jerseyNumber: number;
+  tournament: {
+    id: string;
+    name: string;
+  };
+  player: {
+    id: string;
+    name: string;
+    imagePublicID: string | null;
+    team: {
+      id?: string,
+      name?: string,
+    };
+  };
+};
 
 export const fetchCredentialAction = async (
   id: string,
