@@ -24,6 +24,7 @@ export const TeamsView: FC<Props> = async ({ searchParams }) => {
     <Suspense fallback={<TeamsSelectorSkeleton />}>
       <TeamsSelectorWrapper
         tournamentPermalink={tournamentPermalink}
+        categoryPermalink={categoryPermalink}
       />
     </Suspense>
   );
