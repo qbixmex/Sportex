@@ -37,10 +37,11 @@ export const TournamentsSelector: FC<Props> = ({
   const setTournamentParam = (permalink: string) => {
     if (!permalink) return;
 
+    params.delete('page');
+
     // A team without a tournament has no category from the previous selection
     if (permalink === 'none') {
       params.delete('category');
-      params.delete('page');
     }
 
     params.set('tournament', permalink);

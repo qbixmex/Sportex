@@ -15,9 +15,13 @@ export const DateSelector: FC<Props> = ({ label }) => {
   const params = new URLSearchParams(searchParams);
 
   const setDate = (filter: 'asc' | 'desc' | 'clear') => {
+    params.delete('page');
+
     if (filter === 'clear') params.delete('sort-match-date');
     else params.set('sort-match-date', filter);
-    router.push(`${pathname}?${params}`);
+
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname);
   };
 
   const getPlaceholderLabel = (label: string) => {
