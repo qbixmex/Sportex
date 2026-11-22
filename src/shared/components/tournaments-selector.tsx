@@ -39,10 +39,8 @@ export const TournamentsSelector: FC<Props> = ({
 
     params.delete('page');
 
-    // A team without a tournament has no category from the previous selection
-    if (permalink === 'none') {
-      params.delete('category');
-    }
+    // Categories belong to a tournament, so the previous selection no longer applies
+    params.delete('category');
 
     params.set('tournament', permalink);
     router.push(`${pathname}?${params}`);

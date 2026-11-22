@@ -8,12 +8,12 @@ type Props = Readonly<{
   paramsPromise: Promise<{
     id: string;
   }>;
-  searchParamsPromise: Promise<{ tournament?: string }>;
+  searchParamsPromise: Promise<{ tournament?: string; category?: string }>;
 }>;
 
 export const EditPlayerView: FC<Props> = async ({ paramsPromise, searchParamsPromise }) => {
   const playerId = (await paramsPromise).id;
-  const { tournament } = await searchParamsPromise;
+  const { tournament, category } = await searchParamsPromise;
 
   const responsePlayer = await fetchPlayerAction({
     playerId,
@@ -23,7 +23,10 @@ export const EditPlayerView: FC<Props> = async ({ paramsPromise, searchParamsPro
     redirect(`${ROUTES.ADMIN_PLAYERS}?error=${encodeURIComponent(responsePlayer.message)}`);
   }
 
-  const responseTeams = await fetchTeamsForPlayer(tournament as string);
+  const responseTeams = await fetchTeamsForPlayer({
+    tournamentPermalink: tournament ?? '',
+    categoryPermalink: category ?? '',
+  });
 
   if (!responseTeams.ok) {
     redirect(`${ROUTES.ADMIN_PLAYERS}?error=${encodeURIComponent(responseTeams.message)}`);
