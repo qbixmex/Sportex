@@ -47,11 +47,18 @@ describe('Test on <EditPlayerView />', () => {
   test('Should render correctly', async () => {
     const ServerComponent = await EditPlayerView({
       paramsPromise: Promise.resolve({ id: playerMock.id }),
-      searchParamsPromise: Promise.resolve({}),
+      searchParamsPromise: Promise.resolve({
+        tournament: 'test-tournament',
+        category: 'test-category',
+      }),
     });
     render(ServerComponent);
 
     expect(screen.getByTestId('edit-player-form')).toBeInTheDocument();
+    expect(mockFetchTeams).toHaveBeenCalledWith({
+      tournamentPermalink: 'test-tournament',
+      categoryPermalink: 'test-category',
+    });
   });
 
   test('Should redirect when fetchPlayerAction fails', async () => {
@@ -64,7 +71,10 @@ describe('Test on <EditPlayerView />', () => {
     try {
       await EditPlayerView({
         paramsPromise: Promise.resolve({ id: playerMock.id }),
-        searchParamsPromise: Promise.resolve({}),
+        searchParamsPromise: Promise.resolve({
+          tournament: 'test-tournament',
+          category: 'test-category',
+        }),
       });
     } catch {
       // redirect throws in Next.js
@@ -83,7 +93,10 @@ describe('Test on <EditPlayerView />', () => {
     try {
       await EditPlayerView({
         paramsPromise: Promise.resolve({ id: playerMock.id }),
-        searchParamsPromise: Promise.resolve({}),
+        searchParamsPromise: Promise.resolve({
+          tournament: 'test-tournament',
+          category: 'test-category',
+        }),
       });
     } catch {
       // redirect throws in Next.js

@@ -12,7 +12,10 @@ vi.mock('@/app/admin/jugadores/(components)/teams-selector', () => ({
 }));
 
 vi.mock('@/app/admin/jugadores/(actions)/fetchTeamsForPlayer', () => ({
-  fetchTeamsForPlayer: (permalink: string) => mockFetchTeamsForPlayer(permalink),
+  fetchTeamsForPlayer: (params: {
+    tournamentPermalink: string;
+    categoryPermalink: string;
+  }) => mockFetchTeamsForPlayer(params),
 }));
 
 const teams = [
@@ -32,8 +35,14 @@ describe('Test on <TeamsSelectorWrapper /> component', () => {
     });
   });
 
-  const renderComponent = async (tournamentPermalink = 'torneo-verano') => {
-    const ServerComponent = await TeamsSelectorWrapper({ tournamentPermalink });
+  const renderComponent = async (
+    tournamentPermalink = 'torneo-verano',
+    categoryPermalink = 'primaria-varonil',
+  ) => {
+    const ServerComponent = await TeamsSelectorWrapper({
+      tournamentPermalink,
+      categoryPermalink,
+    });
     return render(ServerComponent);
   };
 
@@ -52,10 +61,13 @@ describe('Test on <TeamsSelectorWrapper /> component', () => {
     );
   });
 
-  test('Should fetch the teams with the provided tournament permalink', async () => {
-    await renderComponent('torneo-verano');
+  test('Should fetch the teams with the provided tournament and category permalinks', async () => {
+    await renderComponent('torneo-verano', 'primaria-varonil');
 
-    expect(mockFetchTeamsForPlayer).toHaveBeenCalledWith('torneo-verano');
+    expect(mockFetchTeamsForPlayer).toHaveBeenCalledWith({
+      tournamentPermalink: 'torneo-verano',
+      categoryPermalink: 'primaria-varonil',
+    });
     expect(mockFetchTeamsForPlayer).toHaveBeenCalledOnce();
   });
 

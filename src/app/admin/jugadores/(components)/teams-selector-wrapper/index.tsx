@@ -4,11 +4,15 @@ import { fetchTeamsForPlayer } from '../../(actions)/fetchTeamsForPlayer';
 
 type Props = Readonly<{
   tournamentPermalink: string;
+  categoryPermalink: string;
 }>;
 
 export const TeamsSelectorWrapper: FC<Props> = async (props) => {
-  const { tournamentPermalink } = props;
-  const { teams } = await fetchTeamsForPlayer(tournamentPermalink);
+  const { tournamentPermalink, categoryPermalink } = props;
+  const { teams } = await fetchTeamsForPlayer({
+    tournamentPermalink,
+    categoryPermalink,
+  });
 
   return (
     <section className="w-full lg:w-1/2 2xl:w-full 2xl:max-w-[600px]">

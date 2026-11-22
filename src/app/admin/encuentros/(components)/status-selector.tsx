@@ -19,9 +19,16 @@ export const StatusSelector = () => {
   const params = new URLSearchParams(searchParams);
 
   const setStatus = (filter: MATCH_STATUS_TYPE | 'clear') => {
-    if (filter === 'clear') params.delete('status');
-    else params.set('status', filter);
-    router.push(`${pathname}?${params}`);
+    params.delete('page');
+
+    if (filter === 'clear') {
+      params.delete('status');
+    } else {
+      params.set('status', filter);
+    }
+
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname);
   };
 
   return (
