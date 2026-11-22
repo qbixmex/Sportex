@@ -43,120 +43,118 @@ export const AnnouncementContent: FC<Props> = async ({ params }) => {
 
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle className="admin-page-card-title" role="heading" aria-level={1}>
-              Detalles de la Noticia
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <section className="flex flex-col lg:flex-row gap-5">
-              <div className="w-full lg:w-1/2">
-                <div className="mb-10">
-                  {announcement.imageUrl ? (
-                    <Image
-                      src={announcement.imageUrl}
-                      width={512}
-                      height={512}
-                      alt={`${announcement.title} imagen`}
-                      className="w-full rounded max-w-[512px] h-auto"
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle className="admin-page-card-title" role="heading" aria-level={1}>
+            Detalles de la Noticia
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <section className="flex flex-col lg:flex-row gap-5">
+            <div className="w-full lg:w-1/2">
+              <div className="mb-10">
+                {announcement.imageUrl ? (
+                  <Image
+                    src={announcement.imageUrl}
+                    width={512}
+                    height={512}
+                    alt={`${announcement.title} imagen`}
+                    className="w-full rounded max-w-[512px] h-auto"
+                  />
+                ) : (
+                  <div className={styles.imagePlaceHolder}>
+                    <Newspaper
+                      size="90%"
+                      strokeWidth={1}
+                      className="stroke-gray-400 dark:stroke-gray-500"
                     />
-                  ) : (
-                    <div className={styles.imagePlaceHolder}>
-                      <Newspaper
-                        size="90%"
-                        strokeWidth={1}
-                        className="stroke-gray-400 dark:stroke-gray-500"
-                      />
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
-              <div className="w-full lg:w-1/2">
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Título</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {announcement.title}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Enlace Permanente</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {announcement.permalink}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Descripción</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        <p className="text-balance">{announcement.description}</p>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Fecha de publicación</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {
-                          announcement.publishedDate?.toLocaleDateString('es-MX', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          }) ?? 'No definido'
-                        }
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Estado</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        <Badge variant={announcement.active ? 'outline-info' : 'outline-secondary'}>
-                          {announcement.active ? 'activo' : 'desactivado'}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Fecha de creación</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {announcement.updatedAt?.toLocaleDateString('es-MX', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableHead className="font-semibold w-[180px]">Fecha de actualización</TableHead>
-                      <TableCell className="dark:text-gray-400 italic">
-                        {announcement.updatedAt?.toLocaleDateString('es-MX', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-            </section>
-
-            <section>
-              <h2 className="text-xl text-blue-600 font-semibold">Contenido</h2>
-              <div className="prose prose-lg dark:prose-invert max-w-none mb-10">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeHighlight, rehypeRaw, rehypeYoutube]}
-                >
-                  {announcement.content}
-                </ReactMarkdown>
-              </div>
-            </section>
-
-            <div className="absolute top-5 right-5">
-              <EditAnnouncement announcementId={announcement.id} />
             </div>
-          </CardContent>
-        </Card>
-      </div>
+            <div className="w-full lg:w-1/2">
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Título</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {announcement.title}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Enlace Permanente</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {announcement.permalink}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Descripción</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      <p className="text-balance">{announcement.description}</p>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Fecha de publicación</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {
+                        announcement.publishedDate?.toLocaleDateString('es-MX', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        }) ?? 'No definido'
+                      }
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Estado</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      <Badge variant={announcement.active ? 'outline-info' : 'outline-secondary'}>
+                        {announcement.active ? 'activo' : 'desactivado'}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Fecha de creación</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {announcement.updatedAt?.toLocaleDateString('es-MX', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="font-semibold w-[180px]">Fecha de actualización</TableHead>
+                    <TableCell className="dark:text-gray-400 italic">
+                      {announcement.updatedAt?.toLocaleDateString('es-MX', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xl text-blue-600 font-semibold">Contenido</h2>
+            <div className="prose prose-lg dark:prose-invert max-w-none mb-10">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight, rehypeRaw, rehypeYoutube]}
+              >
+                {announcement.content}
+              </ReactMarkdown>
+            </div>
+          </section>
+
+          <div className="absolute top-5 right-5">
+            <EditAnnouncement announcementId={announcement.id} />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -17,28 +17,26 @@ const CategoriesPage: FC<Props> = ({ searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle
-                className="admin-page-card-title"
-                role="heading"
-                aria-label="Título de la página"
-              >
-                Categorías
-              </CardTitle>
-              <section className="flex gap-5 mt-3 lg:mt-0 items-center">
-                <Search placeholder="Buscar categoría ..." />
-                <CreateCategory />
-              </section>
-            </CardHeader>
-            <CardContent>
-              <Suspense>
-                <CategoriesView searchParams={searchParams} />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle
+              className="admin-page-card-title"
+              role="heading"
+              aria-label="Título de la página"
+            >
+              Categorías
+            </CardTitle>
+            <section className="flex gap-5 mt-3 lg:mt-0 items-center">
+              <Search placeholder="Buscar categoría ..." />
+              <CreateCategory />
+            </section>
+          </CardHeader>
+          <CardContent>
+            <Suspense>
+              <CategoriesView searchParams={searchParams} />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

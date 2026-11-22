@@ -7,6 +7,8 @@ import type { MATCH_STATUS_TYPE } from '@/shared/enums';
 import { PlayoffsMatchesView } from './playoff-matches-view';
 import { ClearFilters } from './(components)/clear-filters';
 import { CreateMatch } from './(components)/create-match';
+import { CreateMatchSkeleton } from './(components)/create-match.skeleton';
+import { PlayoffMatchesSkeleton } from './(components)/playoff-matches.skeleton';
 
 type Props = Readonly<{
   params: Promise<{ playoff_id: string }>;
@@ -27,28 +29,28 @@ export const PlayoffsMatchesPage: FC<Props> = ({ params, searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle className="admin-page-card-title">
-                Encuentros de Liguilla
-              </CardTitle>
-              <section className="flex gap-2.5">
-                <Search placeholder="ejemplo: chivas vs atlas" />
-                <ClearFilters />
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle className="admin-page-card-title">
+              Encuentros de Liguilla
+            </CardTitle>
+            <section className="flex gap-2.5">
+              <Search placeholder="ejemplo: chivas vs atlas" />
+              <ClearFilters />
+              <Suspense fallback={<CreateMatchSkeleton />}>
                 <CreateMatch playoffIdPromise={playoffIdPromise} />
-              </section>
-            </CardHeader>
-            <CardContent>
-              <Suspense>
-                <PlayoffsMatchesView
-                  playoffIdPromise={playoffIdPromise}
-                  searchParams={searchParams}
-                />
               </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+            </section>
+          </CardHeader>
+          <CardContent>
+            <Suspense fallback={<PlayoffMatchesSkeleton />}>
+              <PlayoffsMatchesView
+                playoffIdPromise={playoffIdPromise}
+                searchParams={searchParams}
+              />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

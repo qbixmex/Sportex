@@ -28,22 +28,20 @@ export const EditFieldPageView: FC<Props> = async ({ params }) => {
 
   return (
     <div className="admin-page">
-      <div className="admin-page-container">
-        <Card className="admin-page-card">
-          <CardHeader className="admin-page-card-header">
-            <CardTitle
-              className="admin-page-card-title"
-              role="heading"
-              aria-label="Título de la página"
-            >
-              Editar Cancha
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <EditFieldForm field={field as Field} />
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="admin-page-card">
+        <CardHeader className="admin-page-card-header">
+          <CardTitle
+            className="admin-page-card-title"
+            role="heading"
+            aria-label="Título de la página"
+          >
+            Editar Cancha
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <EditFieldForm field={field as Field} />
+        </CardContent>
+      </Card>
     </div>
   );
 };

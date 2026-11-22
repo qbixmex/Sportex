@@ -17,28 +17,26 @@ export const EditCustomPage: FC<Props> = ({ searchParams }) => {
     <>
       <ErrorHandler />
       <div className="admin-page">
-        <div className="admin-page-container">
-          <Card className="admin-page-card">
-            <CardHeader className="admin-page-card-header">
-              <CardTitle
-                className="admin-page-card-title"
-                role="heading"
-                aria-label="Título de la página"
-              >
-                Páginas
-              </CardTitle>
-              <section className="flex gap-5 items-center">
-                <Search placeholder="Buscar página ..." />
-                <CreatePage />
-              </section>
-            </CardHeader>
-            <CardContent>
-              <Suspense>
-                <CustomPagesView searchParams={searchParams} />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="admin-page-card">
+          <CardHeader className="admin-page-card-header">
+            <CardTitle
+              className="admin-page-card-title"
+              role="heading"
+              aria-label="Título de la página"
+            >
+              Páginas
+            </CardTitle>
+            <section className="flex gap-5 items-center">
+              <Search placeholder="Buscar página ..." />
+              <CreatePage />
+            </section>
+          </CardHeader>
+          <CardContent>
+            <Suspense>
+              <CustomPagesView searchParams={searchParams} />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </>
   );
