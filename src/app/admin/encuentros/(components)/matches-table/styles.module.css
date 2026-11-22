@@ -3,6 +3,7 @@
 .matchTeams {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: --spacing(4);
   font-weight: 600;
   color: var(--color-gray-500);
