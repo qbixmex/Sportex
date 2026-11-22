@@ -53,4 +53,40 @@ describe('Test on <StatusSelector />', () => {
 
     expect(await screen.findByRole('option', { name: /borrar filtro/i })).toBeInTheDocument();
   });
+
+  test('Should remove the page param when a status is selected from a paginated url', async () => {
+    const { user, combobox } = renderComponent('page=2');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /programado/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros?status=scheduled');
+  });
+
+  test('Should replace the current status and remove the page param', async () => {
+    const { user, combobox } = renderComponent('page=3&status=scheduled');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /en progreso/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros?status=inProgress');
+  });
+
+  test('Should keep the other filters when the page param is removed', async () => {
+    const { user, combobox } = renderComponent('page=2&query=river');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /programado/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros?query=river&status=scheduled');
+  });
+
+  test('Should remove the page and status params when the filter is cleared', async () => {
+    const { user, combobox } = renderComponent('page=2&status=scheduled');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /borrar filtro/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros');
+  });
 });

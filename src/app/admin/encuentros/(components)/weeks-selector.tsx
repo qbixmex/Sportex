@@ -14,9 +14,13 @@ export const WeeksSelector: FC<Props> = ({ weeks }) => {
   const setWeek = (filter: string) => {
     if (!filter || filter === sortWeek) return;
     const params = new URLSearchParams(searchParams);
+    params.delete('page');
+
     if (filter === 'clear') params.delete('sort-week');
     else params.set('sort-week', filter);
-    router.push(`${pathname}?${params}`);
+
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname);
   };
 
   return (

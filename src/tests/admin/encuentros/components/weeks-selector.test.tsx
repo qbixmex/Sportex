@@ -58,4 +58,31 @@ describe('Test on <WeeksSelector />', () => {
 
     expect(await screen.findByRole('option', { name: /borrar filtro/i })).toBeInTheDocument();
   });
+
+  test('Should remove the page param when a week is selected from a paginated url', async () => {
+    const { user, combobox } = renderComponent([1, 2], 'page=2');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /jornada 2/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros?sort-week=2');
+  });
+
+  test('Should remove the page param when the filter is cleared', async () => {
+    const { user, combobox } = renderComponent([1, 2], 'page=2&sort-week=asc');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /borrar filtro/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros');
+  });
+
+  test('Should keep the other filters and remove the page param when a week is selected', async () => {
+    const { user, combobox } = renderComponent([1, 2], 'page=2&query=river');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /jornada 2/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros?query=river&sort-week=2');
+  });
 });

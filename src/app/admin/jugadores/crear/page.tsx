@@ -10,6 +10,7 @@ import { CreatePlayerView } from './create-player-view';
 type Props = Readonly<{
   searchParams: Promise<{
     tournament?: string;
+    category?: string;
   }>;
 }>;
 

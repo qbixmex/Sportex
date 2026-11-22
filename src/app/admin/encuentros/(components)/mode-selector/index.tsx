@@ -25,6 +25,8 @@ export const ModeSelector = () => {
   const params = new URLSearchParams(searchParams);
 
   const setMode = (filter: Filter) => {
+    params.delete('page');
+
     if (filter === CLEAR_FILTER || filter === ALL_MODES) {
       params.delete('mode');
     } else {

@@ -11,7 +11,7 @@ type Props = Readonly<{
   params: Promise<{
     id: string;
   }>;
-  searchParams: Promise<{ tournament?: string }>;
+  searchParams: Promise<{ tournament?: string; category?: string }>;
 }>;
 
 const EditPlayerPage: FC<Props> = ({ params, searchParams }) => {

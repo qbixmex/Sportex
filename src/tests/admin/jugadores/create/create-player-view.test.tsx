@@ -32,11 +32,18 @@ describe('Test on <CreatePlayerView />', () => {
 
   test('Should render correctly', async () => {
     const ServerComponent = await CreatePlayerView({
-      searchParamsPromise: Promise.resolve({ tournament: 'test-tournament' }),
+      searchParamsPromise: Promise.resolve({
+        tournament: 'test-tournament',
+        category: 'test-category',
+      }),
     });
     render(ServerComponent);
 
     expect(screen.getByTestId('create-player-form')).toBeInTheDocument();
+    expect(mockFetchTeams).toHaveBeenCalledWith({
+      tournamentPermalink: 'test-tournament',
+      categoryPermalink: 'test-category',
+    });
   });
 
   test('Should redirect when fetchTeamsForPlayer fails', async () => {
@@ -49,7 +56,10 @@ describe('Test on <CreatePlayerView />', () => {
 
     try {
       await CreatePlayerView({
-        searchParamsPromise: Promise.resolve({ tournament: 'test-tournament' }),
+        searchParamsPromise: Promise.resolve({
+          tournament: 'test-tournament',
+          category: 'test-category',
+        }),
       });
     } catch {
       // redirect throws in Next.js
