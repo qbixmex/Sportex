@@ -60,4 +60,31 @@ describe('Test on <DateSelector />', () => {
 
     expect(await screen.findByRole('option', { name: /borrar filtro/i })).toBeInTheDocument();
   });
+
+  test('Should remove the page param when a date order is selected from a paginated url', async () => {
+    const { user, combobox } = renderComponent('date', 'page=2');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /ascendente/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros?sort-match-date=asc');
+  });
+
+  test('Should remove the page param when an hour order is selected from a paginated url', async () => {
+    const { user, combobox } = renderComponent('hour', 'page=3');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /descendente/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros?sort-match-date=desc');
+  });
+
+  test('Should remove the page param when the filter is cleared', async () => {
+    const { user, combobox } = renderComponent('date', 'page=2&sort-match-date=desc');
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /borrar filtro/i }));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/encuentros');
+  });
 });

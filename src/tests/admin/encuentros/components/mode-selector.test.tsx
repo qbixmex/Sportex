@@ -158,4 +158,48 @@ describe('Test on <ModeSelector />', () => {
 
     expect(filterOption).not.toBeInTheDocument();
   });
+
+  test('Should remove the page param when a mode is selected from a paginated url', async () => {
+    const { user, combobox } = renderComponent('page=2');
+
+    await user.click(combobox());
+    await user.click(
+      await screen.findByRole('option', { name: getMatchMode(MATCH_MODE.LEAGUE) }),
+    );
+
+    expect(mockPush).toHaveBeenCalledWith(
+      `${ROUTES.ADMIN_MATCHES}?mode=${MATCH_MODE.LEAGUE}`,
+    );
+  });
+
+  test('Should remove the page param when the all option is selected', async () => {
+    const { user, combobox } = renderComponent(`page=2&mode=${MATCH_MODE.LEAGUE}`);
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /todas/i }));
+
+    expect(mockPush).toHaveBeenCalledWith(ROUTES.ADMIN_MATCHES);
+  });
+
+  test('Should remove the page param when the clear filter option is selected', async () => {
+    const { user, combobox } = renderComponent(`page=2&mode=${MATCH_MODE.LEAGUE}`);
+
+    await user.click(combobox());
+    await user.click(await screen.findByRole('option', { name: /borrar filtro/i }));
+
+    expect(mockPush).toHaveBeenCalledWith(ROUTES.ADMIN_MATCHES);
+  });
+
+  test('Should keep the other filters and remove the page param when a mode is selected', async () => {
+    const { user, combobox } = renderComponent('page=2&category=sub-15');
+
+    await user.click(combobox());
+    await user.click(
+      await screen.findByRole('option', { name: getMatchMode(MATCH_MODE.FRIENDLY) }),
+    );
+
+    expect(mockPush).toHaveBeenCalledWith(
+      `${ROUTES.ADMIN_MATCHES}?category=sub-15&mode=${MATCH_MODE.FRIENDLY}`,
+    );
+  });
 });

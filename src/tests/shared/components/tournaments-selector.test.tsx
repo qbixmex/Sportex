@@ -2,13 +2,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TournamentsSelector } from '@/shared/components/tournaments-selector';
 
-const { mockPush, mockReplace } = vi.hoisted(() => ({
+const { mockPush, mockReplace, mockUseSearchParams } = vi.hoisted(() => ({
   mockPush: vi.fn(),
   mockReplace: vi.fn(),
+  mockUseSearchParams: vi.fn(),
 }));
 
 vi.mock('next/navigation', () => ({
-  useSearchParams: () => new URLSearchParams(),
+  useSearchParams: mockUseSearchParams,
   usePathname: () => '/admin/equipos',
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
@@ -21,6 +22,7 @@ const tournaments = [
 describe('Tests on <TournamentsSelector />', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseSearchParams.mockReturnValue(new URLSearchParams());
   });
 
   test('Should not show "Sin torneo" when includeNoTournament is false', async () => {
@@ -54,5 +56,29 @@ describe('Tests on <TournamentsSelector />', () => {
     await user.click(screen.getByText('Sin torneo'));
 
     expect(mockPush).toHaveBeenCalledWith('/admin/equipos?tournament=none');
+  });
+
+  test('Should remove the page param when a tournament is selected', async () => {
+    mockUseSearchParams.mockReturnValue(new URLSearchParams('page=2'));
+
+    const user = userEvent.setup();
+    render(<TournamentsSelector tournaments={tournaments} />);
+
+    await user.click(screen.getByRole('combobox'));
+    await user.click(screen.getByText('Torneo B'));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/equipos?tournament=torneo-b');
+  });
+
+  test('Should keep the other filters and remove the page param when a tournament is selected', async () => {
+    mockUseSearchParams.mockReturnValue(new URLSearchParams('page=2&query=river'));
+
+    const user = userEvent.setup();
+    render(<TournamentsSelector tournaments={tournaments} />);
+
+    await user.click(screen.getByRole('combobox'));
+    await user.click(screen.getByText('Torneo A'));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/equipos?query=river&tournament=torneo-a');
   });
 });
