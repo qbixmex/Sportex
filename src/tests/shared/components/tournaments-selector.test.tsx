@@ -55,4 +55,44 @@ describe('Tests on <TournamentsSelector />', () => {
 
     expect(mockPush).toHaveBeenCalledWith('/admin/equipos?tournament=none');
   });
+
+  test('Should remove the page param when a tournament is selected', async () => {
+    mockUseSearchParams.mockReturnValue(new URLSearchParams('page=2'));
+
+    const user = userEvent.setup();
+    render(<TournamentsSelector tournaments={tournaments} />);
+
+    await user.click(screen.getByRole('combobox'));
+    await user.click(screen.getByText('Torneo B'));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/equipos?tournament=torneo-b');
+  });
+
+  test('Should remove the category param when a tournament is selected', async () => {
+    mockUseSearchParams.mockReturnValue(
+      new URLSearchParams('tournament=torneo-a&category=primaria&team=team-1&page=2'),
+    );
+
+    const user = userEvent.setup();
+    render(<TournamentsSelector tournaments={tournaments} />);
+
+    await user.click(screen.getByRole('combobox'));
+    await user.click(screen.getByText('Torneo B'));
+
+    expect(mockPush).toHaveBeenCalledWith(
+      '/admin/equipos?tournament=torneo-b&team=team-1',
+    );
+  });
+
+  test('Should keep the other filters and remove the page param when a tournament is selected', async () => {
+    mockUseSearchParams.mockReturnValue(new URLSearchParams('page=2&query=river'));
+
+    const user = userEvent.setup();
+    render(<TournamentsSelector tournaments={tournaments} />);
+
+    await user.click(screen.getByRole('combobox'));
+    await user.click(screen.getByText('Torneo A'));
+
+    expect(mockPush).toHaveBeenCalledWith('/admin/equipos?query=river&tournament=torneo-a');
+  });
 });

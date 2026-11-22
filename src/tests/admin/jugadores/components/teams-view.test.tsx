@@ -11,9 +11,21 @@ vi.mock('@/app/admin/jugadores/(components)/teams-selector-skeleton', () => ({
 }));
 
 vi.mock('@/app/admin/jugadores/(components)/teams-selector-wrapper', () => ({
-  TeamsSelectorWrapper: () => {
+  TeamsSelectorWrapper: ({
+    tournamentPermalink,
+    categoryPermalink,
+  }: {
+    tournamentPermalink: string;
+    categoryPermalink: string;
+  }) => {
     if (shouldSuspend.value) use(new Promise(() => { }));
-    return <div data-testid="teams-selector-wrapper" />;
+    return (
+      <div
+        data-testid="teams-selector-wrapper"
+        data-tournament={tournamentPermalink}
+        data-category={categoryPermalink}
+      />
+    );
   },
 }));
 
@@ -69,6 +81,21 @@ describe('Test on <TeamsView /> component', () => {
     const teamsSelectorWrapper = screen.queryByTestId('teams-selector-wrapper');
 
     expect(teamsSelectorWrapper).toBeInTheDocument();
+  });
+
+  test('Should pass the tournament and category permalinks to the selector wrapper', async () => {
+    const serverComponent = await TeamsView({
+      searchParams: Promise.resolve<SearchParams>({
+        tournament: 'torneo-verano',
+        category: 'primaria-varonil',
+      }),
+    });
+    render(serverComponent);
+
+    const teamsSelectorWrapper = screen.getByTestId('teams-selector-wrapper');
+
+    expect(teamsSelectorWrapper).toHaveAttribute('data-tournament', 'torneo-verano');
+    expect(teamsSelectorWrapper).toHaveAttribute('data-category', 'primaria-varonil');
   });
 
   test('Should render the skeleton while the selector is suspended', async () => {
