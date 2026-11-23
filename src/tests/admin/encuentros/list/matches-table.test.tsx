@@ -29,10 +29,6 @@ vi.mock('@/app/admin/encuentros/(components)/match-status', () => ({
   MatchStatus: () => <span data-testid="match-status" />,
 }));
 
-vi.mock('@/app/admin/encuentros/(components)/finish-match', () => ({
-  FinishMatch: () => <span data-testid="finish-match" />,
-}));
-
 vi.mock('@/app/admin/encuentros/(components)/match-details', () => ({
   MatchDetails: () => <span data-testid="match-details" />,
 }));
@@ -293,7 +289,6 @@ describe('Tests on <MatchesTable /> component', () => {
     });
 
     expect(screen.getAllByTestId('match-status')).toHaveLength(notCompletedMatches.length);
-    expect(screen.getAllByTestId('finish-match')).toHaveLength(notCompletedMatches.length);
   });
 
   test('Should render action buttons per row', () => {
