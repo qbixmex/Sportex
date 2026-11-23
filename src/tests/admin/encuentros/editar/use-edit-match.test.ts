@@ -5,12 +5,21 @@ import { MATCH_MODE, MATCH_STATUS } from '@/shared/enums';
 import { matchForEditMock, MATCH_ID } from '../mocks/match-for-edit.mock';
 import { AMERICA, CHIVAS } from '../mocks/teams.mock';
 
-const { mockReplace, mockUseSearchParams, mockUpdateAction } = vi.hoisted(() => ({
+const { mockReplace, mockUseSearchParams, mockUpdateAction, mockFinishAction } = vi.hoisted(() => ({
   mockReplace: vi.fn(),
   mockUseSearchParams: vi.fn(),
   mockUpdateAction: vi.fn<
     (params: { formData: FormData; matchId: string }) =>
       Promise<{ ok: boolean; message: string; match: unknown }>
+  >(),
+  mockFinishAction: vi.fn<
+    (props: {
+      matchId: string;
+      localScore: number;
+      visitorScore: number;
+      localId: string;
+      visitorId: string;
+    }) => Promise<{ ok: boolean; message: string }>
   >(),
 }));
 
@@ -25,6 +34,10 @@ vi.mock('sonner', () => ({
 
 vi.mock('@/app/admin/encuentros/(actions)/update-match.action', () => ({
   updateMatchAction: mockUpdateAction,
+}));
+
+vi.mock('@/app/admin/encuentros/(actions)/finish-match.action', () => ({
+  finishMatchAction: mockFinishAction,
 }));
 
 const validData = {
@@ -55,6 +68,10 @@ describe('Tests on useEditMatch hook', () => {
         category: { permalink: 'sub-15' },
         week: 12,
       },
+    });
+    mockFinishAction.mockResolvedValue({
+      ok: true,
+      message: 'El estado del partido finalizó correctamente',
     });
   });
 
@@ -176,6 +193,103 @@ describe('Tests on useEditMatch hook', () => {
     });
 
     expect(result.current.hiddenScores).toBe(true);
+  });
+
+  test('onSubmit should call finishMatchAction when the match becomes completed', async () => {
+    mockUpdateAction.mockResolvedValue({
+      ok: true,
+      message: 'El encuentro fue actualizado correctamente',
+      match: {
+        status: MATCH_STATUS.COMPLETED,
+        tournament: { permalink: 'liga-mx' },
+        category: { permalink: 'sub-15' },
+        week: 12,
+      },
+    });
+    const { result } = renderHook(() => useEditMatch(matchForEditMock));
+
+    await act(async () => {
+      await result.current.onSubmit({
+        ...validData,
+        status: MATCH_STATUS.COMPLETED,
+      });
+    });
+
+    expect(mockFinishAction).toHaveBeenCalledWith({
+      matchId: MATCH_ID,
+      localScore: 2,
+      visitorScore: 1,
+      localId: AMERICA.id,
+      visitorId: CHIVAS.id,
+    });
+  });
+
+  test('onSubmit should not call finishMatchAction when the match was already completed', async () => {
+    mockUpdateAction.mockResolvedValue({
+      ok: true,
+      message: 'El encuentro fue actualizado correctamente',
+      match: {
+        status: MATCH_STATUS.COMPLETED,
+        tournament: { permalink: 'liga-mx' },
+        category: { permalink: 'sub-15' },
+        week: 12,
+      },
+    });
+    const { result } = renderHook(() => useEditMatch({
+      ...matchForEditMock,
+      status: MATCH_STATUS.COMPLETED,
+    }));
+
+    await act(async () => {
+      await result.current.onSubmit({
+        ...validData,
+        status: MATCH_STATUS.COMPLETED,
+      });
+    });
+
+    expect(mockFinishAction).not.toHaveBeenCalled();
+  });
+
+  test('onSubmit should not call finishMatchAction when the status is not completed', async () => {
+    const { result } = renderHook(() => useEditMatch(matchForEditMock));
+
+    await act(async () => {
+      await result.current.onSubmit(validData);
+    });
+
+    expect(mockFinishAction).not.toHaveBeenCalled();
+  });
+
+  test('onSubmit should show an error toast and still navigate when finishing fails', async () => {
+    mockUpdateAction.mockResolvedValue({
+      ok: true,
+      message: 'El encuentro fue actualizado correctamente',
+      match: {
+        status: MATCH_STATUS.COMPLETED,
+        tournament: { permalink: 'liga-mx' },
+        category: { permalink: 'sub-15' },
+        week: 12,
+      },
+    });
+    mockFinishAction.mockResolvedValue({
+      ok: false,
+      message: 'No se pudo finalizar el partido',
+    });
+    const { toast } = await import('sonner');
+    const { result } = renderHook(() => useEditMatch(matchForEditMock));
+
+    await act(async () => {
+      await result.current.onSubmit({
+        ...validData,
+        status: MATCH_STATUS.COMPLETED,
+      });
+    });
+
+    expect(toast.error).toHaveBeenCalledWith('No se pudo finalizar el partido');
+    expect(toast.success).not.toHaveBeenCalledWith('El encuentro fue actualizado correctamente');
+    expect(mockReplace).toHaveBeenCalledWith(
+      '/admin/encuentros?tournament=liga-mx&category=sub-15&sort-week=12',
+    );
   });
 
   test('onSubmit should show an error toast and not navigate on failure', async () => {
