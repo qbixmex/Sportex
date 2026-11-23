@@ -16,7 +16,6 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { DeleteMatch } from '../../(components)/delete-match';
 import { MATCH_STATUS } from '@/shared/enums';
 import { MatchStatus } from '../../(components)/match-status';
-import { FinishMatch } from '../../(components)/finish-match';
 import { MatchScoreInput } from '../../(components)/match-score-input';
 import { Pagination } from '@/shared/components/pagination';
 import { format } from 'date-fns';
@@ -248,16 +247,14 @@ export const MatchesTable: FC<Props> = ({
                       <span className="text-emerald-500 font-semibold">Finalizado</span>
                     </div>
                   ) : (
-                    <div className="flex flex-col gap-2">
-                      <MatchStatus matchId={match.id} status={match.status} />
-                      <FinishMatch
-                        matchId={match.id}
-                        localScore={match.localScore}
-                        visitorScore={match.visitorScore}
-                        localId={match.localTeam.id}
-                        visitorId={match.visitorTeam.id}
-                      />
-                    </div>
+                    <MatchStatus
+                      matchId={match.id}
+                      status={match.status}
+                      localScore={match.localScore}
+                      visitorScore={match.visitorScore}
+                      localId={match.localTeam.id}
+                      visitorId={match.visitorTeam.id}
+                    />
                   )}
                 </TableCell>
                 <TableCell>

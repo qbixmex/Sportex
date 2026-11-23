@@ -12,6 +12,7 @@ import { editMatchSchema } from '@/shared/schemas';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type z from 'zod';
 import { MATCH_STATUS } from '@/shared/enums';
+import { finishMatchAction } from '@/app/admin/encuentros/(actions)/finish-match.action';
 
 export const useEditMatch = (match: MATCH_TYPE) => {
   const router = useRouter();
@@ -95,6 +96,26 @@ export const useEditMatch = (match: MATCH_TYPE) => {
       return;
     }
 
+    const isFinishing =
+      data.status === MATCH_STATUS.COMPLETED &&
+      match.status !== MATCH_STATUS.COMPLETED;
+
+    let finishErrorMessage: string | null = null;
+
+    if (isFinishing) {
+      const finishResponse = await finishMatchAction({
+        matchId: match.id,
+        localScore: data.localScore ?? match.localScore,
+        visitorScore: data.visitorScore ?? match.visitorScore,
+        localId: data.localTeamId ?? match.localTeam.id,
+        visitorId: data.visitorTeamId ?? match.visitorTeam.id,
+      });
+
+      if (!finishResponse.ok) {
+        finishErrorMessage = finishResponse.message;
+      }
+    }
+
     if (updatedMatch.status === MATCH_STATUS.COMPLETED) {
       setHiddenScores(true);
       setIsModifyingScores(false);
@@ -102,7 +123,11 @@ export const useEditMatch = (match: MATCH_TYPE) => {
       setHiddenScores(false);
     }
 
-    toast.success(response.message);
+    if (finishErrorMessage) {
+      toast.error(finishErrorMessage);
+    } else {
+      toast.success(response.message);
+    }
 
     router.replace(ROUTES.ADMIN_MATCHES +
       `?tournament=${updatedMatch.tournament.permalink}` +
