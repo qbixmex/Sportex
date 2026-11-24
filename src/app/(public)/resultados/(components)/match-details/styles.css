@@ -1,5 +1,0 @@
-@reference "../../../../globals.css";
-
-.main-wrapper {
-  @apply flex flex-col lg:flex-row gap-5;
-}
