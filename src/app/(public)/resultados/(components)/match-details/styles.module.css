@@ -1,0 +1,70 @@
+@reference "tailwindcss";
+
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(5);
+
+  @variant lg {
+    flex-direction: row;
+  }
+}
+
+.halfColumn {
+  width: 100%;
+
+  @variant lg {
+    width: 50%;
+  }
+}
+
+.tournamentName {
+  text-wrap: balance;
+}
+
+.modeBadge {
+  width: --spacing(25);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.fieldMap {
+  margin-block: --spacing(10);
+}
+
+.sectionHeading {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-sky-500);
+}
+
+.sectionHeadingSpaced {
+  margin-bottom: --spacing(5);
+}
+
+.additionalInfoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(5);
+
+  @variant lg {
+    flex-direction: row;
+  }
+}
+
+.matchDate {
+  @variant dark {
+    color: var(--color-gray-200);
+  }
+}
+
+.capitalized {
+  text-transform: capitalize;
+}
+
+.divider {
+  width: 100%;
+  height: --spacing(0.25);
+  margin-block: --spacing(5);
+  background-color: var(--color-gray-600);
+}

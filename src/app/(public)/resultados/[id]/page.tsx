@@ -11,7 +11,11 @@ type Props = Readonly<{
 
 const ResultsPage: FC<Props> = ({ params }) => {
   return (
-    <div className="wrapper dark:bg-gray-600/20!">
+    <div
+      className="wrapper dark:bg-gray-600/20!"
+      role="region"
+      aria-label="Información del encuentro"
+    >
       <Heading level="h1" className="text-emerald-600">
         Información del encuentro
       </Heading>
