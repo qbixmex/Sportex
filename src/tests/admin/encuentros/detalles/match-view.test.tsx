@@ -203,6 +203,30 @@ describe('Tests on <MatchView />', () => {
     expect(link).toHaveAttribute('rel', 'noreferrer');
   });
 
+  test('Should render the match category name', async () => {
+    const mockCategory = {
+      id: '4e0d4f0b-1d0f-4f38-8a2d-53c2b0f0e6a7',
+      name: 'Primaria Varonil',
+      permalink: 'primaria-varonil',
+    };
+    await renderMatchView({
+      match: {
+        ...matchMock,
+        category: mockCategory,
+      },
+    });
+
+    expect(screen.getByRole('text', { name: /categoría del encuentro/i }))
+      .toHaveTextContent(mockCategory.name);
+  });
+
+  test('Should render category fallback when match has no category', async () => {
+    await renderMatchView();
+
+    expect(screen.getByRole('text', { name: /categoría del encuentro/i }))
+      .toHaveTextContent(/no disponible/i);
+  });
+
   test('Should render penalty shootout section when completed match ends in draw', async () => {
     const match = {
       ...matchMock,

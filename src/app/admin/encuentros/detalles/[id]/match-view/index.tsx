@@ -85,6 +85,24 @@ export const MatchView: FC<Props> = async ({ params }) => {
                 </TableCell>
               </TableRow>
               <TableRow>
+                <TableHead>Categoría</TableHead>
+                <TableCell>
+                  {match.category ? (
+                    <span role="text" aria-label="Categoría del encuentro">
+                      {match.category.name}
+                    </span>
+                  ) : (
+                    <span
+                      role="text"
+                      aria-label="Categoría del encuentro"
+                      className={styles.undefinedText}
+                    >
+                      No disponible
+                    </span>
+                  )}
+                </TableCell>
+              </TableRow>
+              <TableRow>
                 <TableHead className={styles.tableHead}>Fecha del Encuentro</TableHead>
                 <TableCell>
                   <span role="text" aria-label="Fecha del encuentro">

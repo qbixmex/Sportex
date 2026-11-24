@@ -19,12 +19,12 @@ import { MATCH_STATUS } from '@/shared/enums';
 import type { MATCH_STATUS_TYPE } from '@/shared/enums';
 import { PenaltyShootout } from '@/shared/components/penalty-shootouts';
 import { ROUTES } from '@/shared/constants/routes';
-import './styles.css';
 import { getMatchMode } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { FieldsMap } from '@/shared/components/fields-map';
 import { MatchResults } from '@/shared/components/match-results';
 import { resolveFieldMaps } from '@/lib/maps';
+import styles from './styles.module.css';
 
 const TIME_ZONE = 'America/Mexico_City';
 
@@ -33,11 +33,17 @@ type Props = Readonly<{
 }>;
 
 export const MatchDetails: FC<Props> = async ({ matchId }) => {
-  const { ok, message, match } = await fetchResultDetailsAction(matchId);
+  const result = await fetchResultDetailsAction(matchId);
 
-  if (!ok) {
-    redirect(`${ROUTES.PUBLIC_RESULTS}?error=${encodeURIComponent(message)}`);
+  if (!result.ok) {
+    redirect(
+      ROUTES.PUBLIC_RESULTS +
+      '?error=' +
+      encodeURIComponent(result.message),
+    );
   }
+
+  const match = result.match as MatchType;
 
   const tournament = (match as MatchType).tournament;
   const localTeam = (match as MatchType).local;
@@ -47,8 +53,8 @@ export const MatchDetails: FC<Props> = async ({ matchId }) => {
 
   return (
     <>
-      <section className="main-wrapper">
-        <section className="w-full lg:w-1/2">
+      <section className={styles.mainWrapper}>
+        <section className={styles.halfColumn}>
           <MatchResults
             local={{
               name: localTeam.name,
@@ -71,51 +77,72 @@ export const MatchDetails: FC<Props> = async ({ matchId }) => {
           />
         </section>
 
-        <section className="w-full lg:w-1/2">
+        <section className={styles.halfColumn}>
           <Table>
             <TableBody>
               <TableRow>
                 <TableHead>Torneo</TableHead>
-                <TableCell>
+                <TableCell aria-label="Torneo del encuentro">
                   <Link
                     href={ROUTES.PUBLIC_TOURNAMENT_SHOW(tournament.permalink)}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <p className="text-balance">{tournament.name}</p>
+                    <p className={styles.tournamentName}>{tournament.name}</p>
                   </Link>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableHead>Categoría</TableHead>
-                <TableCell>{match?.category?.name ?? 'No definida'}</TableCell>
+                <TableCell>
+                  {match.category ? (
+                    <span role="text" aria-label="Categoría del encuentro">
+                      {match.category.name}
+                    </span>
+                  ) : (
+                    <span role="text" aria-label="Categoría del encuentro">
+                      No disponible
+                    </span>
+                  )}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableHead>Formato</TableHead>
                 <TableCell>
-                  {match?.local.format} vs {match?.visitor.format}
+                  <span role="text" aria-label="Formato del encuentro">
+                    {match.local.format} vs {match.visitor.format}
+                  </span>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableHead>País</TableHead>
-                <TableCell>{tournament.country}</TableCell>
+                <TableCell>
+                  <span role="text" aria-label="País del torneo">
+                    {tournament.country}
+                  </span>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableHead>Temporada</TableHead>
-                <TableCell>{tournament.season}</TableCell>
+                <TableCell>
+                  <span role="text" aria-label="Temporada del torneo">
+                    {tournament.season}
+                  </span>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableHead>Modalidad</TableHead>
                 <TableCell>
                   <Badge
                     variant={
-                      ((match as MatchType).mode === 'league')
+                      (match.mode === 'league')
                         ? 'outline-primary'
                         : 'outline-special'
                     }
-                    className="uppercase font-semibold w-25"
+                    className={styles.modeBadge}
+                    aria-label="Modalidad del encuentro"
                   >
-                    {getMatchMode((match as MatchType).mode)}
+                    {getMatchMode(match.mode)}
                   </Badge>
                 </TableCell>
               </TableRow>
@@ -125,24 +152,28 @@ export const MatchDetails: FC<Props> = async ({ matchId }) => {
       </section>
 
       {fieldMaps.length > 0 && (
-        <FieldsMap maps={fieldMaps} className="my-10" />
+        <FieldsMap maps={fieldMaps} className={styles.fieldMap} />
       )}
 
-      <h2 className="text-lg font-bold text-sky-500">Información Adicional</h2>
+      <h2 className={styles.sectionHeading}>Información Adicional</h2>
 
-      <section className="flex flex-col lg:flex-row gap-5">
-        <div className="w-full lg:w-1/2">
+      <section className={styles.additionalInfoGrid}>
+        <div className={styles.halfColumn}>
           <Table>
             <TableBody>
               <TableRow>
                 <TableHead>Fecha</TableHead>
                 <TableCell>
-                  <p className="dark:text-gray-200">
+                  <p
+                    className={styles.matchDate}
+                    role="text"
+                    aria-label="Fecha del encuentro"
+                  >
                     <span>
                       {`${formatInTimeZone(match?.matchDate as Date, TIME_ZONE, 'dd', { locale: es })}`}
                     </span>
                     <span>{' de '}</span>
-                    <span className="capitalize">
+                    <span className={styles.capitalized}>
                       {formatInTimeZone(match?.matchDate as Date, TIME_ZONE, 'LLLL', { locale: es })}
                     </span>
                     <span>{' del '}</span>
@@ -155,32 +186,48 @@ export const MatchDetails: FC<Props> = async ({ matchId }) => {
               <TableRow>
                 <TableHead>Hora</TableHead>
                 <TableCell>
-                  {formatInTimeZone(match?.matchDate as Date, TIME_ZONE, 'h:mm aaa', { locale: es })}
+                  <span role="text" aria-label="Hora del encuentro">
+                    {formatInTimeZone(match?.matchDate as Date, TIME_ZONE, 'h:mm aaa', { locale: es })}
+                  </span>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableHead>Estado</TableHead>
                 <TableCell>
-                  <MatchStatus status={match?.status as MATCH_STATUS_TYPE} />
+                  <div role="text" aria-label="Estado del encuentro">
+                    <MatchStatus status={match?.status as MATCH_STATUS_TYPE} />
+                  </div>
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </div>
-        <div className="w-full lg:w-1/2">
+        <div className={styles.halfColumn}>
           <Table>
             <TableBody>
               <TableRow>
                 <TableHead>Jornada</TableHead>
-                <TableCell>{match?.week ?? 'No especificada'}</TableCell>
+                <TableCell>
+                  <span role="text" aria-label="Jornada del encuentro">
+                    {match?.week ?? 'No especificada'}
+                  </span>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableHead>Sede</TableHead>
-                <TableCell>{match?.field?.name ?? 'No especificado'}</TableCell>
+                <TableCell>
+                  <span role="text" aria-label="Sede del encuentro">
+                    {match?.field?.name ?? 'No especificado'}
+                  </span>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableHead>Arbitro</TableHead>
-                <TableCell>{match?.referee ?? 'No especificado'}</TableCell>
+                <TableCell>
+                  <span role="text" aria-label="Árbitro del encuentro">
+                    {match?.referee ?? 'No especificado'}
+                  </span>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -194,10 +241,12 @@ export const MatchDetails: FC<Props> = async ({ matchId }) => {
             (match.localScore === match.visitorScore)
           ) && (
             <>
-              <div className="w-full h-0.25 bg-gray-600 my-5" />
-              <h2 className="text-lg font-bold text-sky-500 mb-5">Tanda de Penales</h2>
-              <section className="flex flex-col lg:flex-row gap-5">
-                <div className="w-full lg:w-1/2">
+              <div className={styles.divider} />
+              <h2 className={`${styles.sectionHeading} ${styles.sectionHeadingSpaced}`}>
+                Tanda de Penales
+              </h2>
+              <section className={styles.additionalInfoGrid}>
+                <div className={styles.halfColumn}>
                   <PenaltyShootout shootout={match.penaltyShootout} />
                 </div>
               </section>
