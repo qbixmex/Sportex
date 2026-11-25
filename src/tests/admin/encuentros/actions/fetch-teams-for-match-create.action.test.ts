@@ -52,6 +52,7 @@ describe('Tests on fetchTeamsForMatchCreateAction server action', () => {
           tournament: { permalink: tournamentPermalink },
           category: { permalink: categoryPermalink },
         },
+        orderBy: { name: 'asc' },
       }),
     );
   });

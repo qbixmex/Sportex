@@ -40,6 +40,7 @@ export const fetchTeamsForMatchEditAction = async ({
           permalink: categoryPermalink,
         },
       },
+      orderBy: { name: 'asc' },
       select: {
         id: true,
         name: true,

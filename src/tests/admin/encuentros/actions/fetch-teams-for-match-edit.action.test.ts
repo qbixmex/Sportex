@@ -51,6 +51,7 @@ describe('Tests on fetchTeamsForMatchEditAction server action', () => {
         permalink: categoryPermalink,
       },
     });
+    expect(findManyArgs.orderBy).toEqual({ name: 'asc' });
   });
 
   test('Should flatten the team fields relation', async () => {
