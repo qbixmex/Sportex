@@ -1,6 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { FieldsMap } from '@/shared/components/fields-map';
 import type { ResolvedFieldMap } from '@/lib/maps';
+import publicStyles from '@/shared/components/fields-map/public_styles.module.css';
+import adminStyles from '@/shared/components/fields-map/admin_styles.module.css';
+
+vi.mock('@/shared/components/fields-map/copy-map', () => ({
+  CopyMap: ({ mapUrl }: { mapUrl: string }) => (
+    <span data-testid="copy-map" data-map-url={mapUrl} />
+  ),
+}));
 
 const buildMap = (overrides: Partial<ResolvedFieldMap> = {}): ResolvedFieldMap => ({
   id: 'field-1',
@@ -24,7 +32,9 @@ describe('Tests on <FieldsMap />', () => {
 
     expect(screen.getByText('Cancha')).toBeInTheDocument();
     expect(screen.getByTitle('Cancha Norte')).toBeInTheDocument();
-    expect(container.querySelector('.md\\:grid-cols-2')).not.toBeInTheDocument();
+    expect(
+      container.querySelector(`.${publicStyles.mapsDesktopLayout}`),
+    ).not.toBeInTheDocument();
   });
 
   test('Should show two maps in a two column grid', () => {
@@ -37,7 +47,9 @@ describe('Tests on <FieldsMap />', () => {
     expect(screen.getByText('Canchas')).toBeInTheDocument();
     expect(screen.getByTitle('Cancha Norte')).toBeInTheDocument();
     expect(screen.getByTitle('Cancha Sur')).toBeInTheDocument();
-    expect(container.querySelector('.md\\:grid-cols-2')).toBeInTheDocument();
+    expect(
+      container.querySelector(`.${publicStyles.mapsDesktopLayout}`),
+    ).toBeInTheDocument();
   });
 
   test('Should render the admin variant with its own spacing', () => {
@@ -48,7 +60,7 @@ describe('Tests on <FieldsMap />', () => {
     const section = container.firstElementChild;
 
     expect(section).toHaveClass('mt-10', 'mb-10');
-    expect(screen.getByText('Cancha')).toHaveClass('text-xl', 'text-sky-600');
+    expect(screen.getByText('Cancha')).toHaveClass(adminStyles.heading);
   });
 
   test('Should render a link when there is no embed URL', () => {
@@ -65,5 +77,25 @@ describe('Tests on <FieldsMap />', () => {
     render(<FieldsMap maps={[]} variant="admin" />);
 
     expect(screen.getByText('No hay canchas asignadas')).toBeInTheDocument();
+  });
+
+  test('Should mount a CopyMap per map with its own url', () => {
+    render(
+      <FieldsMap
+        maps={[buildMap(), buildMap({ id: 'field-2', link: 'https://maps.app.goo.gl/link-b' })]}
+      />,
+    );
+
+    const copyMaps = screen.getAllByTestId('copy-map');
+
+    expect(copyMaps).toHaveLength(2);
+    expect(copyMaps[0]).toHaveAttribute(
+      'data-map-url',
+      'https://maps.app.goo.gl/link-a',
+    );
+    expect(copyMaps[1]).toHaveAttribute(
+      'data-map-url',
+      'https://maps.app.goo.gl/link-b',
+    );
   });
 });

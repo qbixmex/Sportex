@@ -2,22 +2,15 @@ import type { FC } from 'react';
 import { cn } from '@/lib/utils';
 import { FieldMap } from '@/shared/components/field-map';
 import type { ResolvedFieldMap } from '@/lib/maps';
+import { CopyMap } from './copy-map';
+import publicStyles from './public_styles.module.css';
+import adminStyles from './admin_styles.module.css';
 
 type Variant = 'public' | 'admin';
 
 const VARIANTS = {
-  public: {
-    section: 'flex flex-col gap-3 mb-5',
-    heading: 'text-3xl font-bold text-sky-500 mb-2',
-    fieldName: 'text-lg font-semibold text-emerald-700 dark:text-emerald-300',
-    empty: 'text-gray-500 font-semibold text-lg italic',
-  },
-  admin: {
-    section: 'flex flex-col gap-3',
-    heading: 'text-xl font-bold text-sky-600 mb-5',
-    fieldName: 'text-lg font-semibold text-emerald-700 dark:text-emerald-300',
-    empty: 'text-gray-500 font-semibold text-lg italic',
-  },
+  public: publicStyles,
+  admin: adminStyles,
 } as const;
 
 type Props = Readonly<{
@@ -43,13 +36,16 @@ export const FieldsMap: FC<Props> = ({
         <p className={styles.empty}>No hay canchas asignadas</p>
       ) : (
         <div
-          className={cn('grid grid-cols-1 gap-5', {
-            'md:grid-cols-2': maps.length > 1,
+          className={cn(styles.mapsMobileLayout, {
+            [styles.mapsDesktopLayout]: maps.length > 1,
           })}
         >
           {maps.map((map) => (
-            <div key={map.id} className="flex flex-col gap-2">
-              <h3 className={styles.fieldName}>{map.name}</h3>
+            <div key={map.id} className={styles.mapLayout}>
+              <div className={styles.mapHeader}>
+                <h3 className={styles.fieldName}>{map.name}</h3>
+                <CopyMap mapUrl={map.link} />
+              </div>
               <FieldMap
                 link={map.link}
                 embedUrl={map.embedUrl}

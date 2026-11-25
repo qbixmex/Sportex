@@ -1,0 +1,64 @@
+@reference "tailwindcss";
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(3);
+  margin-bottom: --spacing(5);
+}
+
+.heading {
+  color: var(--color-sky-500);
+  margin-bottom: --spacing(2);
+  font-weight: 700;
+  font-size: var(--text-3xl);
+}
+
+.fieldName {
+  font-weight: 600;
+  font-size: var(--text-lg);
+  color: var(--color-emerald-500);
+
+  @variant dark {
+    color: var(--color-emerald-300);
+  }
+}
+
+.empty {
+  color: var(--color-gray-500);
+  font-size: var(--text-lg);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.mapsMobileLayout {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(5);
+}
+
+.mapsDesktopLayout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  gap: --spacing(5);
+}
+
+.mapLayout {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(2);
+}
+
+.mapHeader {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(2);
+  margin-bottom: --spacing(5);
+
+  @variant md {
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    justify-content: space-between;
+  }
+}
