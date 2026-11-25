@@ -180,7 +180,11 @@ export const MatchView: FC<Props> = async ({ params }) => {
       </section>
 
       {matchMaps.length > 0 && (
-        <FieldsMap maps={matchMaps} variant="admin" className={styles.fieldsMap} />
+        <FieldsMap
+          maps={matchMaps}
+          variant="admin"
+          className={styles.fieldsMap}
+        />
       )}
 
       {
