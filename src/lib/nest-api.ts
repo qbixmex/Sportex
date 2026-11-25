@@ -113,6 +113,13 @@ export const checkNestTokenStatus = async (
       token: body.token,
     };
   } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return {
+        ok: false,
+        message: 'La sesión ha expirado, inicie sesión nuevamente',
+      };
+    }
+
     console.error('NestJS check-status error:', error);
     return {
       ok: false,
