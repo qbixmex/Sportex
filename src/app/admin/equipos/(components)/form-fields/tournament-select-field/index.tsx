@@ -12,9 +12,12 @@ export const TournamentSelectField: FC = async () => {
   }
 
   if (ok && tournaments?.length === 0) {
-    redirect(`${ROUTES.ADMIN_TEAMS}?error=${
-      encodeURIComponent('No puedes crear un equipo sin torneos activos')
-    }`);
+    const errorMessage = 'No puedes crear un equipo sin torneos activos';
+    redirect(
+      ROUTES.ADMIN_TEAMS +
+      '?error=' +
+      encodeURIComponent(errorMessage),
+    );
   }
 
   if (!ok) {

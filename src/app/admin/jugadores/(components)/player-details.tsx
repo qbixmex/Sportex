@@ -12,7 +12,7 @@ export const PlayerDetails: FC<Props> = ({ playerId }) => {
     <Tooltip>
       <TooltipTrigger>
         <Link
-          href={ROUTES.ADMIN_PLAYER(playerId)}
+          href={ROUTES.ADMIN_PLAYER_SHOW(playerId)}
           className={buttonVariants({ variant: 'outline-info', size: 'icon' })}
           aria-label="Ir a ver detalles"
         >

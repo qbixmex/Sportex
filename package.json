@@ -1,6 +1,6 @@
 {
   "name": "Sportex",
-  "version": "1.75.0",
+  "version": "1.75.1",
   "private": true,
   "scripts": {
     "dev": "next dev --port=3000",
@@ -73,7 +73,6 @@
     "rehype-highlight": "^7.0.2",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
-    "resize-observer-polyfill": "^1.5.1",
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.7.0",
     "use-debounce": "^10.1.1",

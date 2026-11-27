@@ -59,9 +59,7 @@ export const EditTeamForm: FC<Props> = ({
                 <span className="text-sm italic">Espere</span>
                 <LoaderCircle className="size-4 animate-spin" />
               </span>
-            ) : (
-              <span>guardar</span>
-            )}
+            ) : ('guardar')}
           </Button>
         </div>
       </form>

@@ -11,44 +11,56 @@ export type ResponseDeleteAction = Promise<{
 
 export const updateTeamStateAction = async (id: string, state: boolean): ResponseDeleteAction => {
   const guard = await requireAdmin();
+
   if (!guard.ok) {
-    return { ok: false, message: guard.message };
-  }
-
-  const teamExists = await prisma.team.count({
-    where: { id },
-  });
-
-  if (teamExists === 0) {
     return {
       ok: false,
-      message: 'No se pudo actualizar el equipo, quizás fue eliminado ó no existe',
+      message: guard.message,
     };
   }
 
-  const updatedTeam = await prisma.team.update({
-    where: { id },
-    data: { active: state },
-    select: {
-      name: true,
-      active: true,
-    },
-  });
+  try {
+    const teamExists = await prisma.team.count({
+      where: { id },
+    });
 
-  // Update Cache
-  updateTag('admin-teams');
-  updateTag('admin-teams-for-coach');
-  updateTag('admin-teams-for-player');
-  updateTag('admin-teams-for-gallery');
-  updateTag('admin-teams-for-match');
-  updateTag('admin-team');
-  updateTag('public-teams');
-  updateTag('public-team');
-  updateTag('admin-standings');
-  updateTag('standings');
+    if (teamExists === 0) {
+      return {
+        ok: false,
+        message: 'No se pudo actualizar el equipo, quizás fue eliminado ó no existe',
+      };
+    }
 
-  return {
-    ok: true,
-    message: `El equipo "${updatedTeam.name}" fue ${updatedTeam.active ? 'activado' : 'desactivado'} correctamente`,
-  };
+    const updatedTeam = await prisma.team.update({
+      where: { id },
+      data: { active: state },
+      select: {
+        name: true,
+        active: true,
+      },
+    });
+
+    // Update Cache
+    updateTag('admin-teams');
+    updateTag('admin-teams-for-coach');
+    updateTag('admin-teams-for-player');
+    updateTag('admin-teams-for-gallery');
+    updateTag('admin-teams-for-match');
+    updateTag('admin-team');
+    updateTag('public-teams');
+    updateTag('public-team');
+    updateTag('admin-standings');
+    updateTag('standings');
+
+    return {
+      ok: true,
+      message: `El equipo "${updatedTeam.name}" fue ${updatedTeam.active ? 'activado' : 'desactivado'} correctamente`,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      ok: false,
+      message: 'No se pudo actualizar el equipo, revise los logs del servidor',
+    };
+  }
 };

@@ -8,7 +8,11 @@ export const FieldSelectField: FC = async () => {
   const { ok, message, fields } = await fetchFieldsForTeam();
 
   if (!ok) {
-    redirect(`${ROUTES.ADMIN_TEAMS}?error=${encodeURIComponent(message)}`);
+    redirect(
+      ROUTES.ADMIN_TEAMS +
+      '?error=' +
+      encodeURIComponent(message),
+    );
   }
 
   return (

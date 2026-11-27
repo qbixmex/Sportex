@@ -7,7 +7,7 @@ import { updateTag } from 'next/cache';
 import { uploadImage } from '@/shared/actions';
 import type { CloudinaryResponse } from '@/shared/interfaces';
 import type { GENDER_TYPE } from '@/shared/enums';
-import type { Prisma } from '@/generated/prisma/client';
+import { Prisma } from '@/generated/prisma/client';
 
 type ResponseAction = Promise<{
   ok: boolean;
@@ -183,23 +183,8 @@ export const createTeamAction = async ({
 
     return prismaTransaction;
   } catch (error) {
-    if (error instanceof Error && 'meta' in error && error.meta) {
-      if ('code' in error && error.code as string === 'P2002') {
-        const fieldError = (error.meta as { modelName: string; target: string[] }).target[0];
-        return {
-          ok: false,
-          message: `El campo "${fieldError}", está duplicado`,
-          team: null,
-        };
-      }
-
-      return {
-        ok: false,
-        message: 'Error al crear el equipo, revise los logs del servidor',
-        team: null,
-      };
-    }
     console.log(error);
+
     return {
       ok: false,
       message: 'Error inesperado, revise los logs del servidor',

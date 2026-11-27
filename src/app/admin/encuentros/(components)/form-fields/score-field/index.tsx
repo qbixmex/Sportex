@@ -28,7 +28,10 @@ export const ScoreField: FC<Props> = ({ name, label }) => {
             min={0}
             max={50}
             value={field.value ?? ''}
-            onChange={(e) => field.onChange(parseInt(e.target.value))}
+            onChange={(e) => {
+              const { value } = e.target;
+              field.onChange(value === '' ? '' : parseInt(value, 10));
+            }}
             className="w-full lg:w-[75px]"
             aria-invalid={fieldState.invalid}
           />

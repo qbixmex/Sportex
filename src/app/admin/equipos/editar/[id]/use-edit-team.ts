@@ -18,10 +18,8 @@ export const useEditTeam = ({ team }: { team: TEAM_TYPE; }) => {
     defaultValues: {
       name: team.name,
       permalink: team.permalink,
-      categoryId: team.category?.id ?? undefined,
       format: team.format,
       gender: team.gender,
-      tournamentId: team.tournament?.id ?? undefined,
       country: team.country,
       state: team.state,
       city: team.city,
@@ -30,14 +28,16 @@ export const useEditTeam = ({ team }: { team: TEAM_TYPE; }) => {
       address: team.address,
       fieldsIds: team.fieldsIds,
       active: team.active,
+      tournamentId: team.tournament?.id ?? undefined,
+      categoryId: team.category?.id ?? undefined,
     },
   });
 
   const onSubmit = async (data: z.infer<typeof editTeamSchema>) => {
     const formData = new FormData();
 
-    formData.append('name', data.name as string);
-    formData.append('permalink', data.permalink as string);
+    formData.append('name', (data.name as string).trim());
+    formData.append('permalink', (data.permalink as string).trim());
     formData.append('categoryId', data.categoryId as string);
     formData.append('format', data.format as string);
     formData.append('gender', data.gender as string);
@@ -46,15 +46,17 @@ export const useEditTeam = ({ team }: { team: TEAM_TYPE; }) => {
       formData.append('tournamentId', data.tournamentId.trim());
     }
 
-    if (data.country) formData.append('country', data.country as string);
-    if (data.state) formData.append('state', data.state as string);
-    if (data.city) formData.append('city', data.city as string);
+    if (data.country) formData.append('country', data.country.trim());
+    if (data.state) formData.append('state', data.state.trim());
+    if (data.city) formData.append('city', data.city.trim());
 
     if (data.coachId) {
       formData.append('coachId', data.coachId.trim());
     }
 
-    if (data.emails) formData.append('emails', JSON.stringify(data.emails as string[]));
+    if (data.emails) {
+      formData.append('emails', JSON.stringify(data.emails as string[]));
+    }
 
     if (data.address) {
       formData.append('address', data.address.trim());
@@ -74,10 +76,12 @@ export const useEditTeam = ({ team }: { team: TEAM_TYPE; }) => {
       formData,
       teamId: team.id,
     });
+
     if (!ok && !updatedTeam) {
       toast.error(message);
       return;
     }
+
     if (ok && updatedTeam && updatedTeam.tournament && updatedTeam.category) {
       route.replace(ROUTES.ADMIN_TEAMS +
         `?tournament=${updatedTeam.tournament.permalink}` +
@@ -87,23 +91,6 @@ export const useEditTeam = ({ team }: { team: TEAM_TYPE; }) => {
   };
 
   const handleNavigateBack = () => {
-    form.reset({
-      name: '',
-      permalink: '',
-      categoryId: undefined,
-      format: '',
-      gender: undefined,
-      tournamentId: '',
-      country: '',
-      state: '',
-      city: '',
-      coachId: '',
-      emails: [],
-      address: '',
-      fieldsIds: [],
-      active: false,
-    });
-
     if (team && team.tournament && team.category) {
       route.replace(ROUTES.ADMIN_TEAMS +
         `?tournament=${team.tournament.permalink}` +
@@ -114,10 +101,6 @@ export const useEditTeam = ({ team }: { team: TEAM_TYPE; }) => {
     }
   };
 
-/*
-El torneo con el enlace permanente: "torneo-febrero-junio-2026-edicion-copa-del-mundo"
-y categoría "null" no existe
-*/
   return {
     form,
     handleNavigateBack,
