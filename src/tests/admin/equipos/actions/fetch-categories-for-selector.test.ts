@@ -26,14 +26,14 @@ describe('Tests on fetchCategoriesForSelectorAction server action', () => {
   });
 
   test('Should fetch categories linked to the given tournament', async () => {
-    const response = await fetchCategoriesForSelectorAction('torneo-a');
+    const response = await fetchCategoriesForSelectorAction('torneo-verano');
 
     expect(response.ok).toBe(true);
     expect(mockFindMany).toHaveBeenCalledWith({
       orderBy: [{ name: 'desc' }],
       where: {
         tournaments: {
-          some: { tournament: { permalink: 'torneo-a' } },
+          some: { tournament: { permalink: 'torneo-verano' } },
         },
       },
       select: { id: true, name: true, permalink: true },

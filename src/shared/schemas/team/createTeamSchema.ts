@@ -10,10 +10,12 @@ const ACCEPTED_FILE_TYPES = [
 ];
 
 export const createTeamSchema = z.object({
-  name: z.string()
+  name: z.string('El nombre debe ser una cadena de texto')
+    .min(1, { message: 'El nombre es obligatorio' })
     .min(3, { message: 'El nombre debe ser mayor a 3 caracteres' })
     .max(250, { message: 'El nombre debe ser menor a 250 caracteres' }),
   permalink: z.string()
+    .min(1, { message: 'El enlace permanente es obligatorio' })
     .min(3, { message: 'El enlace permanente debe ser mayor a 3 caracteres' })
     .max(250, { message: 'El enlace permanente debe ser menor a 250 caracteres' })
     .refine(
@@ -33,7 +35,7 @@ export const createTeamSchema = z.object({
       { message: 'El enlace permanente solo puede contener letras, números, guiones y guiones bajos' },
     ),
   image: z
-    .instanceof(File, { message: 'La imagen debe ser un archivo' })
+    .instanceof(File, { message: 'La imagen debe ser una imagen' })
     .refine((file) => { return !file || file.size <= MAX_UPLOAD_SIZE; }, 'El tamaño máximo de la imagen deber ser menor a 2MB')
     .refine((file) => { return file && ACCEPTED_FILE_TYPES.includes(file.type); }, 'El tipo de archivo debe ser uno de los siguientes: png, jpeg, jpg, gif, webp')
     .nullish(),
@@ -43,8 +45,9 @@ export const createTeamSchema = z.object({
     z.null(),
   ]).optional(),
   categoryId: z.uuid('El id de la categoría debe ser un UUID válido'),
-  format: z.string()
-    .min(1, { message: 'El formato debe ser mayor a 1 caracteres' })
+  format: z
+    .string('El formato debe ser una cadena de texto')
+    .min(1, { message: 'El formato es obligatorio' })
     .max(100, { message: 'El formato debe ser menor a 100 caracteres' }),
   gender: z.enum(['male', 'female'], {
     error: 'Debes seleccionar al menos un género',
