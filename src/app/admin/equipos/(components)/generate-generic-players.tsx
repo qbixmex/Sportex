@@ -26,6 +26,7 @@ export const GenerateGenericPlayers: FC<Props> = ({ teamId, gender }) => {
     if (!ok) {
       setGeneratingPlayers(false);
       toast.error(message);
+      return;
     }
 
     if (ok) {
