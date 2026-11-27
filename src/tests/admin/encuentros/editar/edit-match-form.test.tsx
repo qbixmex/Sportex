@@ -25,7 +25,10 @@ vi.mock('@/app/admin/encuentros/(components)/form-fields/update-match-score', ()
 
 const defaultMockReturn = {
   form: {
-    handleSubmit: vi.fn((onSubmit: () => void) => onSubmit),
+    handleSubmit: vi.fn((onSubmit: () => void) => (event?: { preventDefault?: () => void }) => {
+      event?.preventDefault?.();
+      return onSubmit();
+    }),
     formState: { isSubmitting: false },
   },
   onSubmit: vi.fn(),
@@ -126,7 +129,10 @@ describe('Test on <EditMatchForm />', () => {
     vi.mocked(useEditMatch).mockReturnValue({
       ...defaultMockReturn,
       form: {
-        handleSubmit: vi.fn((onSubmit: () => void) => onSubmit),
+        handleSubmit: vi.fn((onSubmit: () => void) => (event?: { preventDefault?: () => void }) => {
+          event?.preventDefault?.();
+          return onSubmit();
+        }),
         formState: { isSubmitting: true },
       },
     } as never);
