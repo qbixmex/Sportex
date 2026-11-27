@@ -17,7 +17,7 @@ import { Trash2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { toast } from 'sonner';
 import { deleteTeamAction } from '../../(actions)';
-import './styles.css';
+import styles from './styles.module.css';
 
 type Props = Readonly<{
   teamId: string;
@@ -54,7 +54,7 @@ export const DeleteTeam: FC<Props> = ({ teamId, roles }) => {
           </AlertDialogTrigger>
         </TooltipTrigger>
         <TooltipContent side="top">
-          <p>eliminar</p>
+          eliminar
         </TooltipContent>
       </Tooltip>
       <AlertDialogContent>
@@ -65,9 +65,11 @@ export const DeleteTeam: FC<Props> = ({ teamId, roles }) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="cancel-btn">cancelar</AlertDialogCancel>
+          <AlertDialogCancel className={styles.cancelBtn}>
+            cancelar
+          </AlertDialogCancel>
           <AlertDialogAction
-            className="delete-btn"
+            className={styles.deleteBtn}
             onClick={() => onDeleteTeam(teamId)}
             autoFocus
           >
@@ -78,5 +80,3 @@ export const DeleteTeam: FC<Props> = ({ teamId, roles }) => {
     </AlertDialog>
   );
 };
-
-export default DeleteTeam;

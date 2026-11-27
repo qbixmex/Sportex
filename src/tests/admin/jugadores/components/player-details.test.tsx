@@ -32,7 +32,7 @@ describe('Test on <PlayerDetails /> component', () => {
   test('Should have a link with provided url', () => {
     const { link } = renderComponent();
 
-    expect(link).toHaveAttribute('href', ROUTES.ADMIN_PLAYER(playerId));
+    expect(link).toHaveAttribute('href', ROUTES.ADMIN_PLAYER_SHOW(playerId));
   });
 
   test('Should show tooltip on mouse over', async () => {

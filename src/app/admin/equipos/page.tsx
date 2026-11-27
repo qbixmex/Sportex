@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TeamsContent } from './(components)/teams-content';
+import { TeamsView } from './(components)/teams-view';
 import { ClearFilters } from './(components)/clear-filters';
 import { TournamentsSelectorSkeleton } from './(components)/TournamentsSelectorSkeleton';
 import { Search } from '@/shared/components/search';
@@ -41,7 +41,7 @@ const TeamsPage: FC<Props> = ({ searchParams }) => {
           </Suspense>
           <Suspense>
             <ErrorHandler />
-            <TeamsContent searchParamsPromise={searchParams} />
+            <TeamsView searchParamsPromise={searchParams} />
           </Suspense>
         </CardContent>
       </Card>

@@ -36,7 +36,10 @@ describe('Test on <CreateMatchForm /> component', () => {
     vi.clearAllMocks();
     mockIsSubmitting.value = false;
     mockHandleSubmit.mockImplementation(
-      (callback: () => void) => () => callback(),
+      (callback: () => void) => (event?: { preventDefault?: () => void }) => {
+        event?.preventDefault?.();
+        return callback();
+      },
     );
     mockUseCreateMatch.mockReturnValue({
       form: {

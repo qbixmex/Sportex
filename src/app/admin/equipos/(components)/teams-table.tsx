@@ -15,21 +15,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  Pencil,
-  InfoIcon,
-  Flag,
-} from 'lucide-react';
+import { Flag } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { ActiveSwitch } from '@/shared/components/active-switch';
 import type { TEAM_TYPE } from '../(actions)/fetch-admin-teams.action';
 import { ROUTES } from '@/shared/constants/routes';
+import { EmptyMessageResource } from '@/shared/components/empty-message-resource';
+import { ShowTeam } from './show-team';
+import { EditTeam } from './edit-team';
 
 type Props = Readonly<{
   teams: TEAM_TYPE[];
@@ -69,7 +62,12 @@ export const TeamsTable: FC<Props> = ({ teams, pagination, roles }) => {
                         {
                           !team.imageUrl ? (
                             <figure className="bg-gray-800 size-[60px] rounded-xl flex items-center justify-center">
-                              <Flag size={35} className="stroke-gray-400" />
+                              <Flag
+                                size={35}
+                                className="stroke-gray-400"
+                                role="img"
+                                aria-label={`${team.name} icono`}
+                              />
                             </figure>
                           ) : (
                             <Image
@@ -103,11 +101,18 @@ export const TeamsTable: FC<Props> = ({ teams, pagination, roles }) => {
                       {team.coach ? (
                         <Link href={`${ROUTES.ADMIN_COACHES_SHOW(team.coach.id)}`}>
                           <Badge variant="outline-info">
-                            <p className="text-wrap">{team.coach.name}</p>
+                            <p className="text-wrap" data-testid="coach-name">
+                              {team.coach.name}
+                            </p>
                           </Badge>
                         </Link>
                       ) : (
-                        <Badge variant="outline-secondary">no asignado</Badge>
+                        <Badge
+                          variant="outline-secondary"
+                          data-testid="coach-badge"
+                        >
+                          no asignado
+                        </Badge>
                       )}
                     </TableCell>
                     <TableCell className="text-center">
@@ -121,30 +126,8 @@ export const TeamsTable: FC<Props> = ({ teams, pagination, roles }) => {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-3">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Link href={ROUTES.ADMIN_TEAMS_SHOW(team.id)}>
-                              <Button variant="outline-info" size="icon">
-                                <InfoIcon />
-                              </Button>
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent side="top">
-                            detalles
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Link href={ROUTES.ADMIN_TEAM_EDIT(team.id)}>
-                              <Button variant="outline-warning" size="icon">
-                                <Pencil />
-                              </Button>
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent side="top">
-                            <p>editar</p>
-                          </TooltipContent>
-                        </Tooltip>
+                        <ShowTeam teamId={team.id} />
+                        <EditTeam teamId={team.id} />
                         <DeleteTeam teamId={team.id} roles={roles} />
                       </div>
                     </TableCell>
@@ -162,11 +145,9 @@ export const TeamsTable: FC<Props> = ({ teams, pagination, roles }) => {
           </div>
         </div>
       ) : (
-        <div className="border border-sky-600 p-5 rounded mt-10">
-          <p className="text-sky-500 text-center text-xl font-semibold">
-            No se encontraron equipos
-          </p>
-        </div>
+        <EmptyMessageResource>
+          No se encontraron equipos
+        </EmptyMessageResource>
       )}
     </>
   );
