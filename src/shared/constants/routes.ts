@@ -27,7 +27,7 @@ export const ROUTES = {
   ADMIN_PLAYERS: '/admin/jugadores',
   ADMIN_PLAYERS_CREATE: '/admin/jugadores/crear',
   ADMIN_PLAYERS_EDIT: (id: string) => `/admin/jugadores/editar/${id}`,
-  ADMIN_PLAYER: (id: string) => `/admin/jugadores/perfil/${id}`,
+  ADMIN_PLAYER_SHOW: (id: string) => `/admin/jugadores/perfil/${id}`,
   ADMIN_MATCHES: '/admin/encuentros',
   ADMIN_MATCHES_CREATE: '/admin/encuentros/crear',
   ADMIN_MATCHES_SHOW: (id: string) => `/admin/encuentros/detalles/${id}`,

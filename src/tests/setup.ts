@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-constructor */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import '@testing-library/jest-dom';
-import ResizeObserver from 'resize-observer-polyfill';
 
 // import { server } from './mocks/server';
 
@@ -52,9 +51,19 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mocking the ResizeObserver
-global.ResizeObserver = ResizeObserver;
+// Radix (useSize) and Floating UI (autoUpdate) update state from ResizeObserver
+// callbacks via requestAnimationFrame. In jsdom there is no layout, so the
+// polyfill only produced async updates outside act(). A mock keeps the API
+// without triggering those updates.
+class MockResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
 
-// Mocking the ResizeObserver - (Radix UI)
+vi.stubGlobal('ResizeObserver', MockResizeObserver);
+
+// Stubs required by Radix UI in jsdom
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 window.HTMLElement.prototype.hasPointerCapture = vi.fn();
 window.HTMLElement.prototype.releasePointerCapture = vi.fn();

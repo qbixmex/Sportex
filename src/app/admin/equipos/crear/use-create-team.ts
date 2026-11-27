@@ -39,7 +39,7 @@ export const useCreateTeam = () => {
     const formData = new FormData();
 
     formData.append('name', data.name.trim());
-    formData.append('permalink', data.permalink);
+    formData.append('permalink', data.permalink.trim());
     formData.append('categoryId', data.categoryId.trim());
     formData.append('format', data.format.trim());
     formData.append('gender', data.gender.trim());
@@ -56,7 +56,9 @@ export const useCreateTeam = () => {
       formData.append('coachId', data.coachId.trim());
     }
 
-    if (data.emails) formData.append('emails', JSON.stringify(data.emails as string[]));
+    if (data.emails) {
+      formData.append('emails', JSON.stringify(data.emails as string[]));
+    }
 
     if (data.address) {
       formData.append('address', data.address.trim());
@@ -73,9 +75,7 @@ export const useCreateTeam = () => {
     formData.append('active', String(data.active));
 
     // Create team
-    const { ok, message, team } = await createTeamAction({
-      formData,
-    });
+    const { ok, message, team } = await createTeamAction({ formData });
 
     if (!ok && !team) {
       toast.error(message);
@@ -94,7 +94,8 @@ export const useCreateTeam = () => {
       toast.success(message);
 
       if (team && team.tournament && team.category) {
-        route.replace(ROUTES.ADMIN_TEAMS +
+        route.replace(
+          ROUTES.ADMIN_TEAMS +
           `?tournament=${team.tournament.permalink}` +
           `&category=${team.category.permalink}`,
         );

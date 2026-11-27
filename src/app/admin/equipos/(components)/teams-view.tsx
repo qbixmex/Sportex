@@ -15,7 +15,7 @@ type Props = Readonly<{
   }>;
 }>;
 
-export const TeamsContent: FC<Props> = async ({ searchParamsPromise }) => {
+export const TeamsView: FC<Props> = async ({ searchParamsPromise }) => {
   const {
     tournament: tournamentPermalink,
     category: categoryPermalink,
@@ -35,7 +35,11 @@ export const TeamsContent: FC<Props> = async ({ searchParamsPromise }) => {
     );
 
     if (!responseTournament.ok) {
-      redirect(`${ROUTES.ADMIN_TEAMS}?error=${encodeURIComponent(responseTournament.message)}`);
+      redirect(
+        ROUTES.ADMIN_TEAMS +
+        '?error=' +
+        encodeURIComponent(responseTournament.message),
+      );
     }
 
     tournamentId = (responseTournament.tournament as { id: string }).id;
@@ -46,7 +50,11 @@ export const TeamsContent: FC<Props> = async ({ searchParamsPromise }) => {
   );
 
   if (!responseCategory.ok) {
-    redirect(`${ROUTES.ADMIN_TEAMS}?error=${encodeURIComponent(responseCategory.message)}`);
+    redirect(
+      ROUTES.ADMIN_TEAMS +
+      '?error=' +
+      encodeURIComponent(responseCategory.message),
+    );
   }
 
   const category = responseCategory.category as { id: string };

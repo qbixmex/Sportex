@@ -156,12 +156,16 @@ export const fetchTeamAction = async (
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message);
+
       return {
         ok: false,
         message: 'No se pudo obtener el equipo,\nRevise los logs del servidor',
         team: null,
       };
     }
+
+    console.log(error);
+
     return {
       ok: false,
       message: 'Error inesperado del servidor,\nRevise los logs del servidor',

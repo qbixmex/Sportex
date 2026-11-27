@@ -5,7 +5,7 @@ import { requireAdmin } from '@/lib/get-session';
 import { updateTag } from 'next/cache';
 import { uploadImage, deleteImage } from '@/shared/actions';
 import { editTeamSchema } from '@/shared/schemas';
-import type { Prisma } from '@/generated/prisma/client';
+import { Prisma } from '@/generated/prisma/client';
 
 type ResponseAction = Promise<{
   ok: boolean;
@@ -49,8 +49,13 @@ export const updateTeamAction = async ({
   teamId: string;
 }): ResponseAction => {
   const guard = await requireAdmin();
+
   if (!guard.ok) {
-    return { ok: false, message: guard.message, updatedTeam: null };
+    return {
+      ok: false,
+      message: guard.message,
+      updatedTeam: null,
+    };
   }
 
   const rawData = {
@@ -220,12 +225,15 @@ export const updateTeamAction = async ({
           updatedTeam,
         };
       } catch (error) {
-        if (error instanceof Error && 'meta' in error && error.meta) {
-          if ('code' in error && error.code as string === 'P2002') {
-            const fieldError = (error.meta as { modelName: string; target: string[] }).target[0];
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === 'P2003') {
+            if (error.meta) {
+              console.log('ERROR METADATA:', error.meta);
+            }
+
             return {
               ok: false,
-              message: `El campo "${fieldError}", está duplicado`,
+              message: 'El equipo no existe, revise los logs del servidor',
               updatedTeam: null,
             };
           }
@@ -236,9 +244,10 @@ export const updateTeamAction = async ({
             updatedTeam: null,
           };
         }
+        console.log(error);
         return {
           ok: false,
-          message: 'Error inesperado, revise los logs',
+          message: 'Error inesperado, revise los logs del servidor',
           updatedTeam: null,
         };
       }

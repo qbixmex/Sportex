@@ -34,7 +34,7 @@ export const CreateTeam: FC = () => {
         </Link>
       </TooltipTrigger>
       <TooltipContent side="left">
-        <p>crear</p>
+        crear
       </TooltipContent>
     </Tooltip>
   );

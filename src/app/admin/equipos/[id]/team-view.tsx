@@ -22,6 +22,7 @@ import { ROUTES } from '@/shared/constants/routes';
 import { EditTeam } from '../(components)/edit-team';
 import { FieldsMap } from '@/shared/components/fields-map';
 import { resolveFieldMaps } from '@/lib/maps';
+import { EmptyMessageResource } from '@/shared/components/empty-message-resource';
 
 type Props = Readonly<{
   params: Promise<{
@@ -35,7 +36,11 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
   const response = await fetchTeamAction(teamId);
 
   if (!response.ok) {
-    redirect(`${ROUTES.ADMIN_TEAMS}?error=${encodeURIComponent(response.message)}`);
+    redirect(
+      ROUTES.ADMIN_TEAMS +
+      '?error=' +
+      encodeURIComponent(response.message),
+    );
   }
 
   const team = response.team!;
@@ -51,14 +56,19 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
     <div className="admin-page">
       <Card className="admin-page-card">
         <CardHeader className="admin-page-card-header">
-          <CardTitle className="admin-page-card-title">Detalles del Equipo</CardTitle>
+          <CardTitle className="admin-page-card-title">Información del Equipo</CardTitle>
         </CardHeader>
         <CardContent>
           <section className="flex flex-col gap-5 xl:flex-row lg:gap-10 mb-5 lg:mb-10">
             {
               !team.imageUrl ? (
                 <div className="bg-gray-200 dark:bg-gray-800 w-full max-w-[512px] h-auto rounded-xl flex items-center justify-center">
-                  <ShieldBan size={512} strokeWidth={1} className="stroke-gray-400" />
+                  <ShieldBan
+                    size={512}
+                    strokeWidth={1}
+                    className="stroke-gray-400"
+                    data-testid="empty-team-image"
+                  />
                 </div>
               ) : (
                 <div className="w-full">
@@ -86,11 +96,21 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
                 </TableRow>
                 <TableRow>
                   <TableHead className="font-semibold">Categoría</TableHead>
-                  <TableCell>{team.category?.name ?? 'Aún no asignada'}</TableCell>
+                  <TableCell>
+                    {
+                      team.category
+                        ? <span>{team.category.name}</span>
+                        : (
+                          <span className="text-gray-500 dark:text-gray-400">
+                            no asignada
+                          </span>
+                        )
+                    }
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableHead className="font-semibold">Formato</TableHead>
-                  <TableCell>{team.format + ' vs ' + team.format}</TableCell>
+                  <TableCell>{`${team.format} vs ${team.format}`}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableHead className="font-semibold">Rama</TableHead>
@@ -120,11 +140,16 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
                   <TableHead className="font-semibold">Torneo</TableHead>
                   <TableCell>
                     {team.tournament ? (
-                      <Link href={`/admin/torneos/${team.tournament.id}`}>
+                      <Link href={ROUTES.ADMIN_TOURNAMENTS_SHOW(team.tournament.id)}>
                         {team.tournament.name}
                       </Link>
                     ) : (
-                      <Badge variant="outline-secondary">No Asignado</Badge>
+                      <Badge
+                        variant="outline-secondary"
+                        data-testid="empty-tournament"
+                      >
+                        no asignado
+                      </Badge>
                     )}
                   </TableCell>
                 </TableRow>
@@ -132,11 +157,16 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
                   <TableHead className="font-semibold">Entrenador</TableHead>
                   <TableCell>
                     {(team.coach) ? (
-                      <Link href={`/admin/entrenadores/perfil/${team.coach?.id}`}>
+                      <Link href={ROUTES.ADMIN_COACHES_SHOW(team.coach?.id)}>
                         {team.coach.name}
                       </Link>
                     ) : (
-                      <Badge variant="outline-secondary">No Asignado</Badge>
+                      <Badge
+                        variant="outline-secondary"
+                        data-testid="empty-coach"
+                      >
+                        no asignado
+                      </Badge>
                     )}
                   </TableCell>
                 </TableRow>
@@ -170,11 +200,9 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
                 {
                   team.players && (team.players.length === 0) ? (
                     <section className="space-y-5">
-                      <div className="border-2 border-cyan-600 rounded-lg px-2 py-4">
-                        <p className="text-cyan-600 text-center font-bold">
-                          Aún no hay jugadores registrados
-                        </p>
-                      </div>
+                      <EmptyMessageResource>
+                        Aún no hay jugadores registrados
+                      </EmptyMessageResource>
                       <GenerateGenericPlayers
                         teamId={team.id}
                         gender={team.gender}
@@ -183,7 +211,10 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
                   ) : (
                     <div className="flex flex-wrap gap-3">
                       {team.players?.map(({ id, name }) => (
-                        <Link key={id} href={`/admin/jugadores/perfil/${id}`}>
+                        <Link
+                          key={id}
+                          href={ROUTES.ADMIN_PLAYER_SHOW(id)}
+                        >
                           <Badge variant="outline-info">{name}</Badge>
                         </Link>
                       ))}
@@ -202,9 +233,21 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
                     <TableRow>
                       <TableHead className="w-[180px] font-semibold">Dirección</TableHead>
                       <TableCell>
-                        <span className="text-wrap">
-                          {team.address ?? 'No especificada'}
-                        </span>
+                        {
+                          team.address
+                            ? (
+                              <span className="text-wrap">
+                                {team.address}
+                              </span>
+                            ) : (
+                              <span
+                                className="text-gray-500 dark:text-gray-400"
+                                data-testid="empty-address"
+                              >
+                                no especificada
+                              </span>
+                            )
+                        }
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -224,7 +267,12 @@ export const TeamPageView: FC<Props> = async ({ params }) => {
                             </Badge>
                           </Link>
                         )) : (
-                          <Badge variant="outline-secondary">No asignada</Badge>
+                          <Badge
+                            variant="outline-secondary"
+                            data-testid="empty-field"
+                          >
+                            no asignada
+                          </Badge>
                         )}
                       </TableCell>
                     </TableRow>

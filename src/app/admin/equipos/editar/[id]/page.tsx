@@ -8,7 +8,7 @@ type Props = Readonly<{
   }>;
 }>;
 
-const EditTeamPage: FC<Props> = async ({ params }) => {
+const EditTeamPage: FC<Props> = ({ params }) => {
   return (
     <div className="admin-page">
       <Card className="admin-page-card">
