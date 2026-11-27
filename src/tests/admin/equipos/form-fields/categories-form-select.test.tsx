@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import { userEvent } from '@testing-library/user-event';
+import { useForm, FormProvider, useFormContext, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CategoriesFormSelect } from '@/app/admin/equipos/(components)/form-fields/category-select-field/categories-form-select';
 import { createTeamSchema } from '@/shared/schemas';
@@ -50,6 +51,11 @@ function FormErrorIndicator() {
   return <span data-testid="form-error">{message}</span>;
 }
 
+function CategoryValue() {
+  const categoryId = useWatch({ name: 'categoryId' });
+  return <span data-testid="category-value">{categoryId}</span>;
+}
+
 describe('Test on <CategoriesFormSelect />', () => {
   test('Should render correctly', () => {
     render(
@@ -95,5 +101,43 @@ describe('Test on <CategoriesFormSelect />', () => {
     await waitFor(() =>
       expect(screen.getByTestId('form-error')).toHaveTextContent(/uuid válido/i),
     );
+  });
+
+  test('Should update categoryId when selecting a category', async () => {
+    render(
+      <TestWrapper>
+        <CategoriesFormSelect categories={mockCategories} />
+        <CategoryValue />
+      </TestWrapper>,
+    );
+    const user = userEvent.setup();
+
+    await user.click(screen.getByPlaceholderText(/buscar categoría/i));
+    await user.click(await screen.findByRole('option', { name: 'femenil' }));
+
+    await waitFor(() => {
+      expect(screen.getByTestId('category-value'))
+        .toHaveTextContent('598f9394-3c23-411a-a65a-33ba432826a0');
+    });
+  });
+
+  test('Should filter the categories by the search term', async () => {
+    render(
+      <TestWrapper>
+        <CategoriesFormSelect categories={mockCategories} />
+      </TestWrapper>,
+    );
+    const user = userEvent.setup();
+
+    const input = screen.getByPlaceholderText(/buscar categoría/i);
+    await user.click(input);
+    await user.type(input, 'feme');
+
+    expect(
+      await screen.findByRole('option', { name: 'femenil' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('option', { name: 'varonil' }),
+    ).not.toBeInTheDocument();
   });
 });
